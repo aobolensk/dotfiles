@@ -1,0 +1,15 @@
+{
+    "workbench.iconTheme": "vscode-icons",
+    "vim.disableExtension": true,
+    "editor.renderWhitespace": "all",
+    "cSpell.language": "en,ru",
+    "window.zoomLevel": 0,
+    "cmake.configureOnOpen": true,
+    "code-runner.enableAppInsights": false,
+    "gitlens.advanced.telemetry.enabled": false,
+    "telemetry.enableTelemetry": false,
+    "telemetry.enableCrashReporter": false,
+    "vsicons.dontShowNewVersionMessage": true,
+    "editor.wordSeparators": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?_",
+    "kotlin.compiler.jvm.target": "1.8"
+}

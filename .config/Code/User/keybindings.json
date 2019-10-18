@@ -1,0 +1,19 @@
+// Place your key bindings in this file to override the defaultsauto[]
+[
+    {
+        "key": "ctrl+shift+numpad_add",
+        "command": "editor.action.fontZoomIn"
+    },
+    {
+        "key": "ctrl+shift+numpad_subtract",
+        "command": "editor.action.fontZoomOut"
+    },
+    {
+        "key": "ctrl+shift+0",
+        "command": "editor.action.fontZoomReset"
+    },
+    {
+        "key": "ctrl+alt+n",
+        "command": "-code-runner.run"
+    }
+]
