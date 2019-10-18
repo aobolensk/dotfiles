@@ -24,16 +24,16 @@ def main():
                 continue
             dotfiles_path = os.path.join(root, file)
             home_path = os.path.join(root.replace(dotfiles_dir, home_dir), file)
-            if (os.path.exists(home_path) and
-                not input("Do you want to replace " +
-                dotfiles_path + " -> " + home_path + "? ").lower().startswith("y")):
+            if not input("Do you want to replace " +
+                dotfiles_path + " -> " + home_path + "? ").lower().startswith("y"):
                 continue
             if os.path.exists(home_path):
                 os.remove(home_path)
+            os.makedirs(os.path.dirname(home_path), exist_ok=True)
             os.symlink(dotfiles_path, home_path)
             print("Added symlink: " + dotfiles_path + " -> " + home_path)
     if input("Do you want to install VSCode extensions? ").lower().startswith("y"):
-        subprocess.call(". " + os.path.join(dotfiles_dir, "vscode-extensions.sh"), shell=True)
+        subprocess.call("source " + os.path.join(dotfiles_dir, "vscode-extensions.sh"), shell=True)
     print("----------------------------")
     print("Dotfiles deployment is done")
     print("----------------------------")
