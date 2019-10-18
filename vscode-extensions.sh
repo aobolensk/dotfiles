@@ -1,3 +1,4 @@
+#!/bin/sh
 code --install-extension alefragnani.pascal
 code --install-extension alefragnani.pascal-formatter
 code --install-extension eamodio.gitlens
