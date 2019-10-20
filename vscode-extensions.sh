@@ -1,6 +1,7 @@
 #!/bin/sh
 code --install-extension alefragnani.pascal
 code --install-extension alefragnani.pascal-formatter
+code --install-extension bjr.head-file-guard
 code --install-extension eamodio.gitlens
 code --install-extension formulahendry.code-runner
 code --install-extension kosz78.nim
