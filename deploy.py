@@ -7,8 +7,11 @@ exclude_files = [
     "deploy.py",
     "update.py",
     "README.md",
+    "LICENSE",
     "vscode-extensions.sh"
 ]
+
+sh_execute = "."
 
 dotfiles_dir = os.path.dirname(os.path.abspath(__file__))
 home_dir = os.environ['HOME']
@@ -33,7 +36,7 @@ def main():
             os.symlink(dotfiles_path, home_path)
             print("Added symlink: " + dotfiles_path + " -> " + home_path)
     if input("Do you want to install VSCode extensions? ").lower().startswith("y"):
-        subprocess.call("source " + os.path.join(dotfiles_dir, "vscode-extensions.sh"), shell=True)
+        subprocess.call(sh_execute + ' ' + os.path.join(dotfiles_dir, "vscode-extensions.sh"), shell=True)
     print("----------------------------")
     print("Dotfiles deployment is done")
     print("----------------------------")
