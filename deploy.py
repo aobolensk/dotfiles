@@ -27,6 +27,8 @@ def main():
                 continue
             dotfiles_path = os.path.join(root, file)
             home_path = os.path.join(root.replace(dotfiles_dir, home_dir), file)
+            if os.path.islink(home_path):
+                continue
             if not input("Do you want to replace " +
                 dotfiles_path + " -> " + home_path + "? ").lower().startswith("y"):
                 continue
