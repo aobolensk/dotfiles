@@ -1,0 +1,7 @@
+[include]
+    path = .gitconfig_local
+    # machine specific settings
+[credential]
+	helper = store
+[alias]
+	tree = log --graph --pretty=oneline --abbrev-commit
