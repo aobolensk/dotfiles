@@ -56,10 +56,17 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+parse_git_branch() {
+    CURRENT_GIT_BRANCH=$(git branch 2>/dev/null | grep '^*' | colrm 1 2)
+    if [[ ${#CURRENT_GIT_BRANCH} > 0 ]]; then
+        echo -en "\033[35m(" && echo -n ${CURRENT_GIT_BRANCH} && echo -en ")\033[00m"
+    fi
+}
+
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(parse_git_branch)\$ '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w$(parse_git_branch)\$ '
 fi
 unset color_prompt force_color_prompt
 
