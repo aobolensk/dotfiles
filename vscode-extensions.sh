@@ -13,6 +13,7 @@ code --install-extension ms-python.python
 code --install-extension ms-vscode.cmake-tools
 code --install-extension ms-vscode.cpptools
 code --install-extension ow.vscode-subword-navigation
+code --install-extension siegebell.incremental-search
 code --install-extension streetsidesoftware.code-spell-checker
 code --install-extension streetsidesoftware.code-spell-checker-russian
 code --install-extension twxs.cmake
