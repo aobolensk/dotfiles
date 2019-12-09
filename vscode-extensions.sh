@@ -6,6 +6,7 @@ code --install-extension eamodio.gitlens
 code --install-extension EditorConfig.EditorConfig
 code --install-extension fabiospampinato.vscode-diff
 code --install-extension formulahendry.code-runner
+code --install-extension icrawl.discord-vscode
 code --install-extension kosz78.nim
 code --install-extension krvajalm.linter-gfortran
 code --install-extension ms-azuretools.vscode-docker
