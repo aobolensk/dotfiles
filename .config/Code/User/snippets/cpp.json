@@ -1,0 +1,13 @@
+{
+    "Insert include guard": {
+        "prefix": "once",
+        "body": [
+            "#ifndef ${1:${TM_FILENAME/(^[^\\.]*)\\.(.*)$/${1:/upcase}/}_${TM_FILENAME/(^[^\\.]*)\\.(.*)$/${2:/upcase}/}_}",
+            "#define ${1:${TM_FILENAME/(^[^\\.]*)\\.(.*)$/${1:/upcase}/}_${TM_FILENAME/(^[^\\.]*)\\.(.*)$/${2:/upcase}/}_}",
+            "",
+            "#endif // ${1:${TM_FILENAME/(^[^\\.]*)\\.(.*)$/${1:/upcase}/}_${TM_FILENAME/(^[^\\.]*)\\.(.*)$/${2:/upcase}/}_}",
+            "",
+        ],
+        "description": "Insert include guard"
+    }
+}
