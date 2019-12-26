@@ -1,7 +1,6 @@
 #!/bin/sh
 code --install-extension alefragnani.pascal
 code --install-extension alefragnani.pascal-formatter
-code --install-extension bjr.head-file-guard
 code --install-extension eamodio.gitlens
 code --install-extension EditorConfig.EditorConfig
 code --install-extension fabiospampinato.vscode-diff
