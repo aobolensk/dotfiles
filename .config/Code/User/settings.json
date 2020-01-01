@@ -11,6 +11,8 @@
     "telemetry.enableCrashReporter": false,
     "vsicons.dontShowNewVersionMessage": true,
     "editor.wordSeparators": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?_",
-    "kotlin.compiler.jvm.target": "1.8",
-    "diffEditor.ignoreTrimWhitespace": false
+    "diffEditor.ignoreTrimWhitespace": false,
+    "files.associations": {
+        "*.qrc": "xml"
+    }
 }
