@@ -1,6 +1,6 @@
 [include]
-    path = .gitconfig_local
-    # machine specific settings
+	path = .gitconfig_local
+	# machine specific settings
 [credential]
 	helper = store
 [alias]
