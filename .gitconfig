@@ -4,4 +4,15 @@
 [credential]
 	helper = store
 [alias]
+	a = add
+	b = branch
+	c = commit
+	cb = checkout -b
+	co = checkout
+	d = diff
+	l = log
+	pl = pull --prune
+	p = push
+	s = status
 	tree = log --graph --pretty=oneline --abbrev-commit
+	undo = reset --hard
