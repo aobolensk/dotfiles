@@ -14,6 +14,7 @@ code --install-extension ms-vscode.cmake-tools
 code --install-extension ms-vscode.cpptools
 code --install-extension ms-vscode.Go
 code --install-extension ow.vscode-subword-navigation
+code --install-extension Perkovec.emoji
 code --install-extension siegebell.incremental-search
 code --install-extension streetsidesoftware.code-spell-checker
 code --install-extension streetsidesoftware.code-spell-checker-russian
