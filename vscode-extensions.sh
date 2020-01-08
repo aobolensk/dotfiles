@@ -22,4 +22,3 @@ code --install-extension twxs.cmake
 code --install-extension Tyriar.sort-lines
 code --install-extension vscode-icons-team.vscode-icons
 code --install-extension vscodevim.vim
-code --install-extension zhuangtongfa.material-theme
