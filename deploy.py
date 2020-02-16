@@ -1,3 +1,4 @@
+import argparse
 import os
 import subprocess
 import sys
@@ -17,6 +18,9 @@ dotfiles_dir = os.path.dirname(os.path.abspath(__file__))
 home_dir = os.environ['HOME']
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-y', action='store_true', dest='y', help='Force yes')
+    args = parser.parse_args()
     print("----------------------------")
     print("Starting dotfiles deployment")
     print("----------------------------")
@@ -29,7 +33,7 @@ def main():
             home_path = os.path.join(root.replace(dotfiles_dir, home_dir), file)
             if os.path.islink(home_path):
                 continue
-            if not input("Do you want to replace " +
+            if not args.y and not input("Do you want to replace " +
                 dotfiles_path + " -> " + home_path + "? ").lower().startswith("y"):
                 continue
             if os.path.exists(home_path):
@@ -37,7 +41,7 @@ def main():
             os.makedirs(os.path.dirname(home_path), exist_ok=True)
             os.symlink(dotfiles_path, home_path)
             print("Added symlink: " + dotfiles_path + " -> " + home_path)
-    if input("Do you want to install VSCode extensions? ").lower().startswith("y"):
+    if args.y or input("Do you want to install VSCode extensions? ").lower().startswith("y"):
         subprocess.call(sh_execute + ' ' + os.path.join(dotfiles_dir, "vscode-extensions.sh"), shell=True)
     print("----------------------------")
     print("Dotfiles deployment is done")
