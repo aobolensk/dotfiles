@@ -7,6 +7,7 @@ code \
 --install-extension fabiospampinato.vscode-diff \
 --install-extension formulahendry.code-runner \
 --install-extension icrawl.discord-vscode \
+--install-extension James-Yu.latex-workshop \
 --install-extension kosz78.nim \
 --install-extension krvajalm.linter-gfortran \
 --install-extension ms-azuretools.vscode-docker \
