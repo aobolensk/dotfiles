@@ -102,3 +102,5 @@ export LS_COLORS
 if [ -d "/usr/local/go/bin" ]; then
     PATH=$PATH:/usr/local/go/bin
 fi
+
+export EDITOR=vim
