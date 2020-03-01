@@ -12,7 +12,7 @@ exclude_files = [
     "vscode-extensions.sh"
 ]
 
-sh_execute = "."
+sh_execute = "bash"
 
 dotfiles_dir = os.path.dirname(os.path.abspath(__file__))
 home_dir = os.environ['HOME']
