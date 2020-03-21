@@ -10,6 +10,7 @@
 	cb = checkout -b
 	co = checkout
 	d = diff
+	ds = diff --staged
 	l = log
 	pl = pull --prune
 	p = push
