@@ -18,12 +18,16 @@ dotfiles_dir = os.path.dirname(os.path.abspath(__file__))
 home_dir = os.environ['HOME']
 
 def main():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description="""
+Dotfiles deployment script.
+- replaces user configuration files with symlinks to synchronized ones stored in this git repository.
+- runs installation scripts for extensions.
+""", formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('-y', action='store_true', dest='y', help='Force yes')
     args = parser.parse_args()
-    print("----------------------------")
-    print("Starting dotfiles deployment")
-    print("----------------------------")
+    print("----------------------------"
+          "Starting dotfiles deployment"
+          "----------------------------")
     for root, dirs, files in os.walk(dotfiles_dir):
         dirs[:] = [d for d in dirs if d not in exclude_dirs]
         for file in files:
@@ -43,9 +47,9 @@ def main():
             print("Added symlink: " + dotfiles_path + " -> " + home_path)
     if args.y or input("Do you want to install VSCode extensions? ").lower().startswith("y"):
         subprocess.call(sh_execute + ' ' + os.path.join(dotfiles_dir, "vscode-extensions.sh"), shell=True)
-    print("----------------------------")
-    print("Dotfiles deployment is done")
-    print("----------------------------")
+    print("----------------------------"
+          "Dotfiles deployment is done "
+          "----------------------------")
 
 if __name__ == "__main__":
     main()
