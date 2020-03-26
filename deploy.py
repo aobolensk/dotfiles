@@ -24,9 +24,10 @@ Dotfiles deployment script.
 - runs installation scripts for extensions.
 """, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('-y', action='store_true', dest='y', help='Force yes')
+    parser.add_argument('--dry-run', action='store_true', dest='dry_run', help='Dry run (does not affect any files)')
     args = parser.parse_args()
-    print("----------------------------"
-          "Starting dotfiles deployment"
+    print("----------------------------\n"
+          "Starting dotfiles deployment\n"
           "----------------------------")
     for root, dirs, files in os.walk(dotfiles_dir):
         dirs[:] = [d for d in dirs if d not in exclude_dirs]
@@ -40,15 +41,17 @@ Dotfiles deployment script.
             if not args.y and not input("Do you want to replace " +
                 dotfiles_path + " -> " + home_path + "? ").lower().startswith("y"):
                 continue
-            if os.path.exists(home_path):
+            if not args.dry_run and os.path.exists(home_path):
                 os.remove(home_path)
-            os.makedirs(os.path.dirname(home_path), exist_ok=True)
-            os.symlink(dotfiles_path, home_path)
+            if not args.dry_run:
+                os.makedirs(os.path.dirname(home_path), exist_ok=True)
+                os.symlink(dotfiles_path, home_path)
             print("Added symlink: " + dotfiles_path + " -> " + home_path)
     if args.y or input("Do you want to install VSCode extensions? ").lower().startswith("y"):
-        subprocess.call(sh_execute + ' ' + os.path.join(dotfiles_dir, "vscode-extensions.sh"), shell=True)
-    print("----------------------------"
-          "Dotfiles deployment is done "
+        if not args.dry_run:
+            subprocess.call(sh_execute + ' ' + os.path.join(dotfiles_dir, "vscode-extensions.sh"), shell=True)
+    print("----------------------------\n"
+          "Dotfiles deployment is done \n"
           "----------------------------")
 
 if __name__ == "__main__":
