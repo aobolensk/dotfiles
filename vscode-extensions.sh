@@ -12,6 +12,11 @@ code \
 --install-extension krvajalm.linter-gfortran \
 --install-extension ms-azuretools.vscode-docker \
 --install-extension ms-python.python \
+--install-extension ms-vscode-remote.remote-containers \
+--install-extension ms-vscode-remote.remote-ssh \
+--install-extension ms-vscode-remote.remote-ssh-edit \
+--install-extension ms-vscode-remote.remote-wsl \
+--install-extension ms-vscode-remote.vscode-remote-extensionpack \
 --install-extension ms-vscode.cmake-tools \
 --install-extension ms-vscode.cpptools \
 --install-extension ms-vscode.Go \
