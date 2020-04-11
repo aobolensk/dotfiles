@@ -9,8 +9,9 @@
     ```
 - optional
     - bash
-    - vim
     - i3wm
+    - vim
+    - tmux
     ```bash
     $ sudo apt install i3 i3-wm py3status i3lock-fancy xautolock
     ```
