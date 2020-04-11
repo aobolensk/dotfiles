@@ -9,11 +9,13 @@
 	c = commit
 	cb = checkout -b
 	co = checkout
+	cp = cherry-pick
 	d = diff
 	ds = diff --staged
 	l = log
 	p = push
 	pl = pull --prune
+	rb = rebase
 	s = status
 	tree = log --graph --pretty=oneline --abbrev-commit
 	undo = reset --hard
