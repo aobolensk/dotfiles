@@ -12,8 +12,8 @@
 	d = diff
 	ds = diff --staged
 	l = log
-	pl = pull --prune
 	p = push
+	pl = pull --prune
 	s = status
 	tree = log --graph --pretty=oneline --abbrev-commit
 	undo = reset --hard
