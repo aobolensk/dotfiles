@@ -5,10 +5,11 @@ import sys
 
 exclude_dirs = [".git"]
 exclude_files = [
+    ".editorconfig",
+    "LICENSE",
+    "README.md",
     "deploy.py",
     "update.py",
-    "README.md",
-    "LICENSE",
     "vscode-extensions.sh"
 ]
 

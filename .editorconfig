@@ -1,0 +1,22 @@
+root = true
+
+[*]
+end_of_line = lf
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[{**.{py,json,md}}]
+indent_style = space
+indent_size = 4
+
+[.config/i3/**]
+indent_style = space
+indent_size = 8
+
+[{.bashrc,.bash_aliases}]
+indent_style = space
+indent_size = 4
+
+[.gitconfig]
+indent_style = tabs
+indent_size = 4
