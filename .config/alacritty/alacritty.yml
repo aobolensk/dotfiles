@@ -1,0 +1,34 @@
+env:
+  TERM: alacritty
+  color_prompt: yes
+
+scrolling:
+  history: 100000
+
+colors:
+  primary:
+    background: '#232627'
+    foreground: '#daeada'
+
+font:
+  normal:
+    family: Ubuntu Mono
+  bold:
+    family: Ubuntu Mono
+  italic:
+    family: Ubuntu Mono
+  size: 12.0
+
+selection:
+  semantic_escape_chars: ",│`|:\"' ()[]{}<>"
+  save_to_clipboard: false
+
+background_opacity: 0.95
+
+key_bindings:
+  - { key: Equals,   mods: Control,       action: IncreaseFontSize             }
+  - { key: Minus,    mods: Control,       action: DecreaseFontSize             }
+  - { key: 0,        mods: Control,       action: ResetFontSize                }
+  - { key: Numpad0,  mods: Control,       action: ResetFontSize                }
+  - { key: N,        mods: Control|Shift, action: SpawnNewInstance             }
+  - { key: F11,                           action: ToggleFullscreen             }
