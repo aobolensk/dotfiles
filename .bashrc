@@ -68,7 +68,7 @@ else
     PS1='\u@\h:\w$(parse_git_branch)\$ '
 fi
 
-# If this is an xterm set the title to user@host:dir
+# If this is an xterm set the title to 'dir - user@host'
 case "$TERM" in
 xterm*|rxvt*)
     PS1="\[\e]0;\W - \u@\h\a\]$PS1"
