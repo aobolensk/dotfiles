@@ -1,5 +1,5 @@
 env:
-  TERM: alacritty
+  TERM: xterm
   color_prompt: yes
 
 scrolling:
