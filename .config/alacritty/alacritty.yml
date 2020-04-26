@@ -35,3 +35,6 @@ key_bindings:
   - { key: Numpad0,  mods: Control,       action: ResetFontSize                }
   - { key: N,        mods: Control|Shift, action: SpawnNewInstance             }
   - { key: F11,                           action: ToggleFullscreen             }
+
+mouse_bindings:
+  - { mouse: Middle, action: PasteSelection }
