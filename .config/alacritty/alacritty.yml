@@ -18,6 +18,10 @@ font:
     family: Ubuntu Mono
   size: 12.0
 
+mouse:
+  url:
+    modifiers: Control
+
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>"
   save_to_clipboard: false
