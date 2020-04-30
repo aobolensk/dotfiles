@@ -23,7 +23,7 @@ mouse:
     modifiers: Control
 
 selection:
-  semantic_escape_chars: ",│`|:\"' ()[]{}<>"
+  semantic_escape_chars: ",│`|\"' ()[]{}<>"
   save_to_clipboard: false
 
 background_opacity: 0.95
