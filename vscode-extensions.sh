@@ -24,6 +24,7 @@ code \
 --install-extension Perkovec.emoji \
 --install-extension redhat.java \
 --install-extension redhat.vscode-xml \
+--install-extension redhat.vscode-yaml \
 --install-extension siegebell.incremental-search \
 --install-extension streetsidesoftware.code-spell-checker \
 --install-extension streetsidesoftware.code-spell-checker-russian \
