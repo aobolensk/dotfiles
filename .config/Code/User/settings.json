@@ -55,5 +55,7 @@
     "python.jediEnabled": false,
     "workbench.startupEditor": "newUntitledFile",
     "latex-workshop.message.update.show": false,
-    "latex-workshop.view.pdf.viewer": "tab"
+    "latex-workshop.view.pdf.viewer": "tab",
+    "java.configuration.checkProjectSettingsExclusions": false,
+    "java.semanticHighlighting.enabled": false
 }
