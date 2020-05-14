@@ -2,6 +2,7 @@
 code \
 --install-extension alefragnani.pascal \
 --install-extension alefragnani.pascal-formatter \
+--install-extension auchenberg.vscode-browser-preview \
 --install-extension eamodio.gitlens \
 --install-extension EditorConfig.EditorConfig \
 --install-extension fabiospampinato.vscode-diff \
