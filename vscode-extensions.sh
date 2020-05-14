@@ -29,6 +29,7 @@ code \
 --install-extension siegebell.incremental-search \
 --install-extension streetsidesoftware.code-spell-checker \
 --install-extension streetsidesoftware.code-spell-checker-russian \
+--install-extension tootone.org-mode \
 --install-extension twxs.cmake \
 --install-extension Tyriar.sort-lines \
 --install-extension VisualStudioExptTeam.vscodeintellicode \
