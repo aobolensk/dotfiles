@@ -1,5 +1,6 @@
 #!/bin/sh
 code \
+--install-extension alefragnani.Bookmarks \
 --install-extension alefragnani.pascal \
 --install-extension alefragnani.pascal-formatter \
 --install-extension auchenberg.vscode-browser-preview \
