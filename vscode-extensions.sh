@@ -29,7 +29,6 @@ code \
 --install-extension siegebell.incremental-search \
 --install-extension streetsidesoftware.code-spell-checker \
 --install-extension streetsidesoftware.code-spell-checker-russian \
---install-extension tootone.org-mode \
 --install-extension twxs.cmake \
 --install-extension Tyriar.sort-lines \
 --install-extension VisualStudioExptTeam.vscodeintellicode \
@@ -39,4 +38,5 @@ code \
 --install-extension vscjava.vscode-java-test \
 --install-extension vscjava.vscode-maven \
 --install-extension vscode-icons-team.vscode-icons \
+--install-extension vscode-org-mode.org-mode \
 --install-extension vscodevim.vim \
