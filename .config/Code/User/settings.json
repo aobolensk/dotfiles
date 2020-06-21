@@ -57,5 +57,6 @@
     "latex-workshop.message.update.show": false,
     "latex-workshop.view.pdf.viewer": "tab",
     "java.configuration.checkProjectSettingsExclusions": false,
-    "java.semanticHighlighting.enabled": false
+    "java.semanticHighlighting.enabled": false,
+    "python.languageServer": "Microsoft"
 }
