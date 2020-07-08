@@ -8,6 +8,7 @@ code \
 --install-extension EditorConfig.EditorConfig \
 --install-extension fabiospampinato.vscode-diff \
 --install-extension formulahendry.code-runner \
+--install-extension golang.go \
 --install-extension icrawl.discord-vscode \
 --install-extension James-Yu.latex-workshop \
 --install-extension kosz78.nim \
@@ -21,7 +22,6 @@ code \
 --install-extension ms-vscode-remote.vscode-remote-extensionpack \
 --install-extension ms-vscode.cmake-tools \
 --install-extension ms-vscode.cpptools \
---install-extension ms-vscode.Go \
 --install-extension ow.vscode-subword-navigation \
 --install-extension Perkovec.emoji \
 --install-extension redhat.java \
