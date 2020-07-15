@@ -1,6 +1,5 @@
 #!/bin/sh
 code \
---install-extension alefragnani.Bookmarks \
 --install-extension alefragnani.pascal \
 --install-extension alefragnani.pascal-formatter \
 --install-extension auchenberg.vscode-browser-preview \
@@ -23,7 +22,6 @@ code \
 --install-extension ms-vscode.cmake-tools \
 --install-extension ms-vscode.cpptools \
 --install-extension ow.vscode-subword-navigation \
---install-extension Perkovec.emoji \
 --install-extension redhat.java \
 --install-extension redhat.vscode-xml \
 --install-extension redhat.vscode-yaml \
