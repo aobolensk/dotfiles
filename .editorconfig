@@ -5,9 +5,13 @@ end_of_line = lf
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-[{**.{py,json,md,yml}}]
+[{**.{py,json,yml}}]
 indent_style = space
 indent_size = 4
+
+[*.md]
+indent_style = space
+indent_size = 2
 
 [.config/i3/**]
 indent_style = space

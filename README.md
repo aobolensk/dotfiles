@@ -3,14 +3,14 @@
 ### Dependencies
 
 - required
-    - git
-    - Python 3.5+
+  - git
+  - Python 3.5+
 - optional
-    - bash
-    - i3wm
-    - vim
-    - tmux
-    - [Visual Studio Code](https://code.visualstudio.com/)
+  - bash
+  - i3wm
+  - vim
+  - tmux
+  - [Visual Studio Code](https://code.visualstudio.com/)
 
 #### Ubuntu:
 ```bash
