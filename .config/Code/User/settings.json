@@ -58,6 +58,6 @@
     "latex-workshop.view.pdf.viewer": "tab",
     "java.configuration.checkProjectSettingsExclusions": false,
     "java.semanticHighlighting.enabled": false,
-    "python.languageServer": "Microsoft",
+    "python.languageServer": "Pylance",
     "python.showStartPage": false
 }
