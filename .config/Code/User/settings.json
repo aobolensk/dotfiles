@@ -53,7 +53,7 @@
     "editor.suggestSelection": "first",
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
     "python.jediEnabled": false,
-    "workbench.startupEditor": "newUntitledFile",
+    "workbench.startupEditor": "welcomePage",
     "latex-workshop.message.update.show": false,
     "latex-workshop.view.pdf.viewer": "tab",
     "java.configuration.checkProjectSettingsExclusions": false,
