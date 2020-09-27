@@ -59,5 +59,6 @@
     "java.configuration.checkProjectSettingsExclusions": false,
     "java.semanticHighlighting.enabled": false,
     "python.languageServer": "Pylance",
-    "python.showStartPage": false
+    "python.showStartPage": false,
+    "workbench.colorTheme": "One Monokai"
 }
