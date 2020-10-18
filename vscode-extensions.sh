@@ -8,6 +8,7 @@ code \
 --install-extension EditorConfig.EditorConfig \
 --install-extension fabiospampinato.vscode-diff \
 --install-extension formulahendry.code-runner \
+--install-extension galarius.vscode-opencl \
 --install-extension golang.go \
 --install-extension icrawl.discord-vscode \
 --install-extension James-Yu.latex-workshop \
