@@ -27,6 +27,7 @@ code \
 --install-extension redhat.java \
 --install-extension redhat.vscode-xml \
 --install-extension redhat.vscode-yaml \
+--install-extension stkb.rewrap \
 --install-extension streetsidesoftware.code-spell-checker \
 --install-extension streetsidesoftware.code-spell-checker-russian \
 --install-extension twxs.cmake \
