@@ -17,6 +17,7 @@ code \
 --install-extension ms-azuretools.vscode-docker \
 --install-extension ms-python.python \
 --install-extension ms-python.vscode-pylance \
+--install-extension ms-toolsai.jupyter \
 --install-extension ms-vscode-remote.remote-containers \
 --install-extension ms-vscode-remote.remote-ssh \
 --install-extension ms-vscode-remote.remote-ssh-edit \
