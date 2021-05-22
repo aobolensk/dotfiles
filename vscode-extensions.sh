@@ -26,6 +26,7 @@ code \
 --install-extension ms-vscode.cmake-tools \
 --install-extension ms-vscode.cpptools \
 --install-extension redhat.java \
+--install-extension redhat.vscode-commons \
 --install-extension redhat.vscode-xml \
 --install-extension redhat.vscode-yaml \
 --install-extension stkb.rewrap \
