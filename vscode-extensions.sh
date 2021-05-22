@@ -12,6 +12,7 @@ code \
 --install-extension golang.go \
 --install-extension icrawl.discord-vscode \
 --install-extension James-Yu.latex-workshop \
+--install-extension kahole.magit \
 --install-extension kosz78.nim \
 --install-extension krvajalm.linter-gfortran \
 --install-extension ms-azuretools.vscode-docker \
