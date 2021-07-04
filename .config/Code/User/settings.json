@@ -60,5 +60,12 @@
     "java.semanticHighlighting.enabled": false,
     "python.languageServer": "Pylance",
     "python.showStartPage": false,
-    "workbench.colorTheme": "Default Dark+"
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter.notebook.ipynb"
+    },
+    "cSpell.userWords": [
+        "user"
+    ],
+    "workbench.colorTheme": "One Dark Pro",
+    "redhat.telemetry.enabled": false
 }
