@@ -61,11 +61,24 @@
     "python.languageServer": "Pylance",
     "python.showStartPage": false,
     "workbench.editorAssociations": {
-        "*.ipynb": "jupyter.notebook.ipynb"
+        "*.ipynb": "jupyter-notebook"
     },
     "cSpell.userWords": [
-        "user"
+        "await",
+        "check",
+        "user",
+        "util"
     ],
-    "workbench.colorTheme": "One Dark Pro",
-    "redhat.telemetry.enabled": false
+    "redhat.telemetry.enabled": false,
+    "notebook.cellToolbarLocation": {
+        "default": "right",
+        "jupyter-notebook": "left"
+    },
+    "editor.inlineSuggest.enabled": true,
+    "github.copilot.enable": {
+        "*": true,
+        "yaml": true,
+        "plaintext": false,
+        "markdown": false
+    }
 }
