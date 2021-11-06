@@ -3,15 +3,18 @@ code \
 --install-extension alefragnani.pascal \
 --install-extension alefragnani.pascal-formatter \
 --install-extension auchenberg.vscode-browser-preview \
---install-extension azemoh.one-monokai \
+--install-extension cschlosser.doxdocgen \
 --install-extension eamodio.gitlens \
 --install-extension EditorConfig.EditorConfig \
 --install-extension fabiospampinato.vscode-diff \
 --install-extension formulahendry.code-runner \
 --install-extension galarius.vscode-opencl \
+--install-extension GitHub.copilot \
+--install-extension GitHub.vscode-pull-request-github \
 --install-extension golang.go \
 --install-extension icrawl.discord-vscode \
 --install-extension James-Yu.latex-workshop \
+--install-extension jeff-hykin.better-cpp-syntax \
 --install-extension kahole.magit \
 --install-extension kosz78.nim \
 --install-extension krvajalm.linter-gfortran \
@@ -19,6 +22,8 @@ code \
 --install-extension ms-python.python \
 --install-extension ms-python.vscode-pylance \
 --install-extension ms-toolsai.jupyter \
+--install-extension ms-toolsai.jupyter-keymap \
+--install-extension ms-toolsai.jupyter-renderers \
 --install-extension ms-vscode-remote.remote-containers \
 --install-extension ms-vscode-remote.remote-ssh \
 --install-extension ms-vscode-remote.remote-ssh-edit \
@@ -26,6 +31,10 @@ code \
 --install-extension ms-vscode-remote.vscode-remote-extensionpack \
 --install-extension ms-vscode.cmake-tools \
 --install-extension ms-vscode.cpptools \
+--install-extension ms-vscode.cpptools-extension-pack \
+--install-extension ms-vscode.cpptools-themes \
+--install-extension ms-vsliveshare.vsliveshare \
+--install-extension ms-vsliveshare.vsliveshare-audio \
 --install-extension redhat.java \
 --install-extension redhat.vscode-commons \
 --install-extension redhat.vscode-xml \
@@ -33,6 +42,7 @@ code \
 --install-extension stkb.rewrap \
 --install-extension streetsidesoftware.code-spell-checker \
 --install-extension streetsidesoftware.code-spell-checker-russian \
+--install-extension TakumiI.markdowntable \
 --install-extension twxs.cmake \
 --install-extension Tyriar.sort-lines \
 --install-extension VisualStudioExptTeam.vscodeintellicode \
@@ -44,3 +54,4 @@ code \
 --install-extension vscode-icons-team.vscode-icons \
 --install-extension vscode-org-mode.org-mode \
 --install-extension vscodevim.vim \
+--install-extension zhuangtongfa.material-theme \
