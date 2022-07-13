@@ -2,23 +2,25 @@
 code \
 --install-extension alefragnani.pascal \
 --install-extension alefragnani.pascal-formatter \
---install-extension auchenberg.vscode-browser-preview \
 --install-extension cschlosser.doxdocgen \
 --install-extension eamodio.gitlens \
 --install-extension EditorConfig.EditorConfig \
 --install-extension fabiospampinato.vscode-diff \
 --install-extension formulahendry.code-runner \
+--install-extension fortran-lang.linter-gfortran \
 --install-extension galarius.vscode-opencl \
 --install-extension GitHub.copilot \
 --install-extension GitHub.vscode-pull-request-github \
 --install-extension golang.go \
+--install-extension haskell.haskell \
 --install-extension icrawl.discord-vscode \
 --install-extension James-Yu.latex-workshop \
 --install-extension jeff-hykin.better-cpp-syntax \
+--install-extension justusadam.language-haskell \
 --install-extension kahole.magit \
 --install-extension kosz78.nim \
---install-extension krvajalm.linter-gfortran \
 --install-extension ms-azuretools.vscode-docker \
+--install-extension ms-dotnettools.csharp \
 --install-extension ms-python.python \
 --install-extension ms-python.vscode-pylance \
 --install-extension ms-toolsai.jupyter \
@@ -53,5 +55,4 @@ code \
 --install-extension vscjava.vscode-maven \
 --install-extension vscode-icons-team.vscode-icons \
 --install-extension vscode-org-mode.org-mode \
---install-extension vscodevim.vim \
 --install-extension zhuangtongfa.material-theme \
