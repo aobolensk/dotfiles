@@ -9,7 +9,7 @@ Dotfiles update script.
 - gathers extensions list and updates installation scripts.
 """, formatter_class=argparse.RawTextHelpFormatter)
     args = parser.parse_args()
-    with open("vscode-extensions.sh", "w") as f:
+    with open("vscode-extensions.sh", "w", encoding="utf-8", newline='\n') as f:
         f.write("#!/bin/sh\n")
         f.write("code \\\n")
         f.flush()
