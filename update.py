@@ -13,7 +13,10 @@ Dotfiles update script.
         f.write("#!/bin/sh\n")
         f.write("code \\\n")
         f.flush()
-        subprocess.call("code --list-extensions | xargs -L 1 -I '$' echo '--install-extension $ \\'", stdout=f, shell=True)
+        proc = subprocess.run("code --list-extensions", stdout=subprocess.PIPE, shell=True, check=True)
+        out = proc.stdout.decode("utf-8").strip().split('\n')
+        for line in out:
+            f.write("--install-extension {} \\\n".format(line))
 
 if __name__ == "__main__":
     main()
