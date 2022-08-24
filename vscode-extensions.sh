@@ -6,8 +6,6 @@ code \
 --install-extension eamodio.gitlens \
 --install-extension EditorConfig.EditorConfig \
 --install-extension fabiospampinato.vscode-diff \
---install-extension formulahendry.code-runner \
---install-extension fortran-lang.linter-gfortran \
 --install-extension galarius.vscode-opencl \
 --install-extension GitHub.copilot \
 --install-extension GitHub.vscode-pull-request-github \
