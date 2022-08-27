@@ -5,7 +5,10 @@ import os
 import subprocess
 import sys
 
-exclude_dirs = [".git"]
+exclude_dirs = [
+    ".git",
+    ".github"
+]
 exclude_files = [
     ".editorconfig",
     "LICENSE",
