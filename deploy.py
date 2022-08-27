@@ -3,9 +3,11 @@
 import argparse
 import os
 import subprocess
-import sys
 
-exclude_dirs = [".git"]
+exclude_dirs = [
+    ".git",
+    ".github"
+]
 exclude_files = [
     ".editorconfig",
     "LICENSE",
@@ -19,6 +21,7 @@ sh_execute = "bash"
 
 dotfiles_dir = os.path.dirname(os.path.abspath(__file__))
 home_dir = os.environ['HOME']
+
 
 def main():
     parser = argparse.ArgumentParser(description="""
@@ -41,8 +44,9 @@ Dotfiles deployment script.
             home_path = os.path.join(root.replace(dotfiles_dir, home_dir), file)
             if os.path.islink(home_path):
                 continue
-            if not args.y and not input("Do you want to replace " +
-                dotfiles_path + " -> " + home_path + "? ").lower().startswith("y"):
+            if not args.y and not input(
+                    "Do you want to replace " +
+                    dotfiles_path + " -> " + home_path + "? ").lower().startswith("y"):
                 continue
             if not args.dry_run and os.path.exists(home_path):
                 os.remove(home_path)
@@ -56,6 +60,7 @@ Dotfiles deployment script.
     print("----------------------------\n"
           "Dotfiles deployment is done \n"
           "----------------------------")
+
 
 if __name__ == "__main__":
     main()
