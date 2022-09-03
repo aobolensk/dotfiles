@@ -19,3 +19,5 @@
 	s = status
 	tree = log --graph --pretty=oneline --abbrev-commit
 	undo = reset --hard
+	st = stash
+	sta = stash apply
