@@ -15,13 +15,16 @@
 	ds = diff --staged
 	l = log
 	p = push
-	pl = pull --prune
+	pl = pull --prune --rebase
+	poh = push origin HEAD
 	rb = rebase
 	s = status
-	tree = log --graph --pretty=oneline --abbrev-commit
-	undo = reset --hard
 	st = stash
 	sta = stash apply
+	tree = log --graph --pretty=oneline --abbrev-commit
+	uncommit = reset --soft HEAD
+	undo = reset --hard
+	unstage = restore --staged
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
