@@ -1,5 +1,5 @@
 #!/bin/sh
-code \
+code --force \
 --install-extension alefragnani.pascal \
 --install-extension alefragnani.pascal-formatter \
 --install-extension cschlosser.doxdocgen \

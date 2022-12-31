@@ -12,7 +12,7 @@ Dotfiles update script.
     _ = parser.parse_args()
     with open("vscode-extensions.sh", "w", encoding="utf-8", newline='\n') as f:
         f.write("#!/bin/sh\n")
-        f.write("code \\\n")
+        f.write("code --force \\\n")
         f.flush()
         proc = subprocess.run("code --list-extensions", stdout=subprocess.PIPE, shell=True, check=True)
         out = proc.stdout.decode("utf-8").strip().split('\n')
