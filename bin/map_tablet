@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-# Description:
-# Script for mapping graphic tablet to specific monitor
-
-# References:
-#   https://unix.stackexchange.com/questions/316096/how-to-get-xinput-to-identify-an-inputer-device-by-name-with-excess-whitespace
-
-xinput --map-to-output $(xinput list --id-only "`xinput list --name-only | grep 'PenTablet Pen'`") VGA-0
