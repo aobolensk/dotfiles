@@ -19,14 +19,15 @@ font:
   size: 12.0
 
 mouse:
-  url:
+  hints:
     modifiers: Control
 
 selection:
   semantic_escape_chars: ",│`|\"' ()[]{}<>«»"
   save_to_clipboard: false
 
-background_opacity: 0.95
+background:
+  opacity: 0.95
 
 key_bindings:
   - { key: Equals,   mods: Control,       action: IncreaseFontSize             }
