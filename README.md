@@ -18,6 +18,11 @@ $ sudo apt install git python3
 $ sudo apt install i3 i3-wm py3status i3lock-fancy xautolock
 ```
 
+#### macOS:
+```bash
+$ brew install git python
+```
+
 ### Deploy dotfiles
 
 ```bash
