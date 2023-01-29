@@ -5,20 +5,28 @@
 - required
   - git
   - Python 3.5+
-- optional
+
+### These dotfiles provide config for the following applications:
   - bash
   - i3wm
+
+      Ubuntu:
+      ```bash
+      $ sudo apt install i3 i3-wm py3status i3lock-fancy xautolock
+      ```
   - vim
   - tmux
   - [Visual Studio Code](https://code.visualstudio.com/)
+  - alacritty
 
-#### Ubuntu:
+### Prerequisites
+
+Ubuntu:
 ```bash
 $ sudo apt install git python3
-$ sudo apt install i3 i3-wm py3status i3lock-fancy xautolock
 ```
 
-#### macOS:
+macOS:
 ```bash
 $ brew install git python
 ```
