@@ -10,12 +10,6 @@ colors:
     foreground: '#daeada'
 
 font:
-  normal:
-    family: Ubuntu Mono
-  bold:
-    family: Ubuntu Mono
-  italic:
-    family: Ubuntu Mono
   size: 12.0
 
 mouse:
