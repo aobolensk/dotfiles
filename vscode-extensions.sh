@@ -21,6 +21,7 @@ code --force \
 --install-extension k--kato.docomment \
 --install-extension kahole.magit \
 --install-extension kosz78.nim \
+--install-extension llvm-vs-code-extensions.vscode-mlir \
 --install-extension lunaryorn.hlint \
 --install-extension ms-azuretools.vscode-docker \
 --install-extension ms-dotnettools.csharp \
