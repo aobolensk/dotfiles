@@ -46,7 +46,6 @@ code --force \
 --install-extension ms-vscode.remote-explorer \
 --install-extension ms-vsliveshare.vsliveshare \
 --install-extension phoityne.phoityne-vscode \
---install-extension redhat.java \
 --install-extension redhat.vscode-commons \
 --install-extension redhat.vscode-xml \
 --install-extension redhat.vscode-yaml \
