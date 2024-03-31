@@ -84,3 +84,7 @@ export LS_COLORS
 [ -d "/usr/local/go/bin" ] && export PATH=$PATH:/usr/local/go/bin
 
 export EDITOR=vim
+
+if [ "$(uname)" == "Darwin" ]; then
+    export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+fi
