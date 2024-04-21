@@ -86,5 +86,5 @@ export LS_COLORS
 export EDITOR=vim
 
 if [ "$(uname)" == "Darwin" ]; then
-    export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+    eval $(/opt/homebrew/bin/brew shellenv)
 fi
