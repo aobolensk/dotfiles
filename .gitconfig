@@ -13,6 +13,7 @@
 	cp = cherry-pick
 	cpa = cherry-pick --abort
 	cpc = cherry-pick --continue
+	cps = cherry-pick --skip
 	d = diff
 	ds = diff --staged
 	l = log
@@ -25,6 +26,7 @@
 	rb = rebase
 	rba = rebase --abort
 	rbc = rebase --continue
+	rbs = rebase --skip
 	s = status
 	st = stash
 	sta = stash apply
