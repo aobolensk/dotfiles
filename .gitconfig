@@ -31,7 +31,7 @@
 	st = stash
 	sta = stash apply
 	tree = log --graph --pretty=oneline --abbrev-commit
-	uncommit = reset --soft HEAD
+	uncommit = reset --soft HEAD~1
 	undo = reset --hard
 	unstage = restore --staged
 [filter "lfs"]
