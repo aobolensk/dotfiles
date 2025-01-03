@@ -61,6 +61,9 @@ xterm*|rxvt*)
     ;;
 esac
 
+# Report current working directory using OSC 1337 protocol for external tools
+PS1="$PS1\[\e]1337;CurrentDir="'$(pwd)\a\]'
+
 # Alias definitions
 [ -f ~/.bash_aliases ] && . ~/.bash_aliases
 
