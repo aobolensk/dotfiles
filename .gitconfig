@@ -23,6 +23,7 @@
 	mgc = merge --continue
 	p = push
 	pl = pull --prune --rebase
+	pla = pull --prune --all
 	poh = "!git push origin $(git head)"
 	rb = rebase
 	rba = rebase --abort
