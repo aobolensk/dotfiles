@@ -32,6 +32,7 @@
 	s = status
 	st = stash
 	sta = stash apply
+	su = submodule update --init --recursive
 	tree = log --graph --pretty=oneline --abbrev-commit
 	uncommit = reset --soft HEAD~1
 	undo = reset --hard
