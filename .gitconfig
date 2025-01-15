@@ -24,6 +24,7 @@
 	p = push
 	pl = pull --prune --rebase
 	pla = pull --prune --all
+	pls = "!git pull --prune --rebase && git submodule update --init --recursive"
 	poh = "!git push origin $(git head)"
 	rb = rebase
 	rba = rebase --abort
