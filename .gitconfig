@@ -1,6 +1,8 @@
 [include]
 	path = .gitconfig_local
 	# machine specific settings
+[core]
+	excludesfile = ~/.gitignore_global
 [credential]
 	helper = store
 [alias]
