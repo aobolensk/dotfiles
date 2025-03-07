@@ -16,6 +16,7 @@
 	cps = cherry-pick --skip
 	d = diff
 	ds = diff --staged
+	f = fetch
 	head = "!git rev-parse --abbrev-ref HEAD"
 	l = log
 	mg = merge
