@@ -16,7 +16,10 @@ Dotfiles update script.
             f.write("#!/bin/sh\n")
             f.write("code --force \\\n")
             f.flush()
-            proc = subprocess.run("code --list-extensions", stdout=subprocess.PIPE, shell=True, check=True)
+            proc = subprocess.run([
+                "code",
+                "--list-extensions",
+            ], stdout=subprocess.PIPE, check=True)
             out = proc.stdout.decode("utf-8").strip().split('\n')
             for line in out:
                 f.write("--install-extension {} \\\n".format(line))

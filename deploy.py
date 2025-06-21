@@ -56,7 +56,10 @@ Dotfiles deployment script.
             print("Added symlink: " + dotfiles_path + " -> " + home_path)
     if args.y or input("Do you want to install VSCode extensions? ").lower().startswith("y"):
         if not args.dry_run:
-            subprocess.call(sh_execute + ' ' + os.path.join(dotfiles_dir, "vscode-extensions.sh"), shell=True)
+            subprocess.call([
+                sh_execute,
+                os.path.join(dotfiles_dir, "vscode-extensions.sh"),
+            ])
     print("----------------------------\n"
           "Dotfiles deployment is done \n"
           "----------------------------")
