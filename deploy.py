@@ -42,14 +42,15 @@ Dotfiles deployment script.
                 continue
             dotfiles_path = os.path.join(root, file)
             home_path = os.path.join(root.replace(dotfiles_dir, home_dir), file)
-            if os.path.islink(home_path):
+            if os.path.islink(home_path) and os.readlink(home_path) == dotfiles_path:
                 continue
-            if not args.y and not input(
-                    "Do you want to replace " +
-                    dotfiles_path + " -> " + home_path + "? ").lower().startswith("y"):
-                continue
-            if not args.dry_run and os.path.exists(home_path):
-                os.remove(home_path)
+            if os.path.lexists(home_path):
+                if not args.y and not input(
+                        "Do you want to replace " +
+                        dotfiles_path + " -> " + home_path + "? ").lower().startswith("y"):
+                    continue
+                if not args.dry_run:
+                    os.remove(home_path)
             if not args.dry_run:
                 os.makedirs(os.path.dirname(home_path), exist_ok=True)
                 os.symlink(dotfiles_path, home_path)
