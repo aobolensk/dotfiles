@@ -21,7 +21,9 @@ exclude_files = [
 sh_execute = "bash"
 
 dotfiles_dir = os.path.dirname(os.path.abspath(__file__))
-home_dir = os.environ['HOME']
+# Use os.path.expanduser to determine the user's home directory in a
+# platform independent manner even if the HOME environment variable is not set.
+home_dir = os.path.expanduser("~")
 
 
 def main():
