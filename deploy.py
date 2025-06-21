@@ -6,7 +6,8 @@ import subprocess
 
 exclude_dirs = [
     ".git",
-    ".github"
+    ".github",
+    "__pycache__",
 ]
 exclude_files = [
     ".editorconfig",
