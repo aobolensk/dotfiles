@@ -1,1 +1,5 @@
 .cache
+
+# Claude AI artifacts
+.claude/
+CLAUDE.md
