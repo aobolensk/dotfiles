@@ -28,7 +28,9 @@
 	pl = pull --prune --rebase
 	pla = pull --prune --all
 	pls = "!git pull --prune --rebase && git submodule update --init --recursive"
+	pah = "!git push aobolensk $(git head)"
 	poh = "!git push origin $(git head)"
+	puh = "!git push upstream $(git head)"
 	rb = rebase
 	rba = rebase --abort
 	rbc = rebase --continue
