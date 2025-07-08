@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 
 import argparse
+import os
 import shutil
 import subprocess
+
+dotfiles_dir = os.path.dirname(os.path.abspath(__file__))
 
 
 def main():
@@ -12,7 +15,7 @@ Dotfiles update script.
 """, formatter_class=argparse.RawTextHelpFormatter)
     _ = parser.parse_args()
     if shutil.which("code"):
-        with open("vscode-extensions.sh", "w", encoding="utf-8", newline='\n') as f:
+        with open(os.path.join(dotfiles_dir, "vscode-extensions.sh"), "w", encoding="utf-8", newline='\n') as f:
             f.write("#!/bin/sh\n")
             f.write("code --force \\\n")
             f.flush()
