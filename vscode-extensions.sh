@@ -3,6 +3,7 @@ code --force \
 --install-extension alefragnani.pascal \
 --install-extension alefragnani.pascal-formatter \
 --install-extension alesiong.clang-tidy-linter \
+--install-extension anthropic.claude-code \
 --install-extension circlecodesolution.ccs-flutter-color \
 --install-extension cschlosser.doxdocgen \
 --install-extension csharpier.csharpier-vscode \
