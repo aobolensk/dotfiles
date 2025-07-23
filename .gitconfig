@@ -3,6 +3,8 @@
 	# machine specific settings
 [core]
 	excludesfile = ~/.gitignore_global
+[color]
+	ui = auto
 [credential]
 	helper = store
 [alias]
