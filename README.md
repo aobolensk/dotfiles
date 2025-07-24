@@ -34,11 +34,11 @@ $ brew install git python
 ### Deploy dotfiles
 
 ```bash
-$ python3 deploy.py
+$ ./deploy.py
 ```
 
 ### Update VSCode extensions list
 
 ```bash
-$ python3 update.py
+$ ./update.py
 ```
