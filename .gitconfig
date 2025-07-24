@@ -37,6 +37,10 @@
 	rba = rebase --abort
 	rbc = rebase --continue
 	rbs = rebase --skip
+	rv = revert
+	rva = revert --abort
+	rvc = revert --continue
+	rvs = revert --skip
 	s = status
 	st = stash
 	sta = stash apply
