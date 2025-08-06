@@ -47,6 +47,7 @@ code --force \
 --install-extension ms-python.isort \
 --install-extension ms-python.python \
 --install-extension ms-python.vscode-pylance \
+--install-extension ms-python.vscode-python-envs \
 --install-extension ms-toolsai.jupyter \
 --install-extension ms-toolsai.jupyter-keymap \
 --install-extension ms-toolsai.jupyter-renderers \
