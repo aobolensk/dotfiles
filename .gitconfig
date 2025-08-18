@@ -1,6 +1,8 @@
 [include]
 	path = .gitconfig_local
 	# machine specific settings
+[branch]
+    autoSetupMerge = always
 [core]
 	excludesfile = ~/.gitignore_global
 [color]
