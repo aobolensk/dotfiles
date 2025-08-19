@@ -1,8 +1,7 @@
 .cache
 
-# ChatGPT artifacts
+# AI tools artifacts
 AGENTS.md
-
-# Claude AI artifacts
 .claude/
 CLAUDE.md
+QWEN.md
