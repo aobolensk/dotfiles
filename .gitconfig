@@ -52,6 +52,7 @@
 	uncommit = reset --soft HEAD~1
 	undo = reset --hard
 	unstage = restore --staged
+	pr = "!git fetch origin pull/$1/head:pr-$1 --force && git checkout pr-$1"
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
