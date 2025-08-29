@@ -15,6 +15,7 @@
 	c = commit
 	ca = commit --amend
 	cb = checkout -b
+	cl = clone --recurse-submodules
 	co = checkout
 	cp = cherry-pick
 	cpa = cherry-pick --abort
@@ -60,5 +61,3 @@
 	required = true
 [lfs]
 	locksverify = false
-[submodule]
-	recurse = true
