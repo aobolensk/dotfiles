@@ -60,3 +60,5 @@
 	required = true
 [lfs]
 	locksverify = false
+[submodule]
+	recurse = true
