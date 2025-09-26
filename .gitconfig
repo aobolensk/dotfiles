@@ -54,6 +54,9 @@
 	undo = reset --hard
 	unstage = restore --staged
 	pr = "!git fetch origin pull/$1/head:pr-$1 --force && git checkout pr-$1"
+[push]
+    autoSetupRemote = true
+    default = current
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
