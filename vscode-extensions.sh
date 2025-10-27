@@ -1,5 +1,6 @@
 #!/bin/sh
 code --force \
+--install-extension alefragnani.bookmarks \
 --install-extension alefragnani.pascal \
 --install-extension alefragnani.pascal-formatter \
 --install-extension alesiong.clang-tidy-linter \
@@ -28,6 +29,7 @@ code --force \
 --install-extension icrawl.discord-vscode \
 --install-extension james-yu.latex-workshop \
 --install-extension jeff-hykin.better-cpp-syntax \
+--install-extension josevseb.google-java-format-for-vs-code \
 --install-extension justusadam.language-haskell \
 --install-extension k--kato.docomment \
 --install-extension kahole.magit \
