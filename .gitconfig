@@ -24,6 +24,7 @@
 	d = diff
 	ds = diff --staged
 	f = fetch
+	h = "!git head"
 	head = "!git rev-parse --abbrev-ref HEAD"
 	l = log
 	mg = merge
