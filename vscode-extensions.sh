@@ -88,8 +88,6 @@ code --force \
 --install-extension trond-snekvik.simple-rst \
 --install-extension twxs.cmake \
 --install-extension tyriar.sort-lines \
---install-extension visualstudioexptteam.intellicode-api-usage-examples \
---install-extension visualstudioexptteam.vscodeintellicode \
 --install-extension vscjava.vscode-gradle \
 --install-extension vscjava.vscode-java-debug \
 --install-extension vscjava.vscode-java-dependency \
