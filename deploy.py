@@ -69,6 +69,12 @@ Dotfiles deployment script.
 - runs installation scripts for extensions.
 """, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('-y', action='store_true', dest='y', help='Force yes')
+    parser.add_argument(
+        '--vscode-path',
+        dest='vscode_path',
+        default="code",
+        help='Path or name of VS Code executable to use for extensions (default: code)',
+    )
     parser.add_argument('--dry-run', action='store_true', dest='dry_run', help='Dry run (does not affect any files)')
     args = parser.parse_args()
 
@@ -106,9 +112,11 @@ Dotfiles deployment script.
             print("Added symlink: " + dotfiles_path + " -> " + home_path)
     if args.y or input("Do you want to install VSCode extensions? ").lower().startswith("y"):
         if not args.dry_run:
+            vscode_exec = args.vscode_path
             subprocess.call([
                 sh_execute,
                 os.path.join(dotfiles_dir, "vscode-extensions.sh"),
+                vscode_exec,
             ])
     print("----------------------------\n"
           "Dotfiles deployment is done \n"
