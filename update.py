@@ -16,8 +16,10 @@ Dotfiles update script.
     _ = parser.parse_args()
     if shutil.which("code"):
         with open(os.path.join(dotfiles_dir, "vscode-extensions.sh"), "w", encoding="utf-8", newline='\n') as f:
-            f.write("#!/bin/sh\n")
-            f.write("code --force \\\n")
+            f.write("#!/bin/sh\n\n")
+            f.write("set -e\n\n")
+            f.write("vscode_exec=${1:-code}\n\n")
+            f.write("\"$vscode_exec\" --force \\\n")
             f.flush()
             proc = subprocess.run([
                 "code",

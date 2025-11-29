@@ -1,5 +1,10 @@
 #!/bin/sh
-code --force \
+
+set -e
+
+vscode_exec=${1:-code}
+
+"$vscode_exec" --force \
 --install-extension alefragnani.bookmarks \
 --install-extension alefragnani.pascal \
 --install-extension alefragnani.pascal-formatter \
