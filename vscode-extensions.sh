@@ -23,7 +23,6 @@ vscode_exec=${1:-code}
 --install-extension flutterando.flutter-coverage \
 --install-extension formulahendry.code-runner \
 --install-extension galarius.vscode-opencl \
---install-extension github.copilot \
 --install-extension github.copilot-chat \
 --install-extension github.vscode-github-actions \
 --install-extension github.vscode-pull-request-github \
@@ -32,7 +31,9 @@ vscode_exec=${1:-code}
 --install-extension hoovercj.haskell-linter \
 --install-extension hzgood.dart-data-class-generator \
 --install-extension icrawl.discord-vscode \
+--install-extension jackiotyu.git-worktree-manager \
 --install-extension james-yu.latex-workshop \
+--install-extension jeanp413.open-remote-ssh \
 --install-extension jeff-hykin.better-cpp-syntax \
 --install-extension josevseb.google-java-format-for-vs-code \
 --install-extension justusadam.language-haskell \
@@ -45,6 +46,7 @@ vscode_exec=${1:-code}
 --install-extension lextudio.restructuredtext-pack \
 --install-extension llvm-vs-code-extensions.vscode-mlir \
 --install-extension lunaryorn.hlint \
+--install-extension mechatroner.rainbow-csv \
 --install-extension mohsen1.prettify-json \
 --install-extension ms-azuretools.vscode-containers \
 --install-extension ms-azuretools.vscode-docker \
@@ -66,6 +68,7 @@ vscode_exec=${1:-code}
 --install-extension ms-vscode-remote.remote-wsl \
 --install-extension ms-vscode-remote.vscode-remote-extensionpack \
 --install-extension ms-vscode.cmake-tools \
+--install-extension ms-vscode.cpp-devtools \
 --install-extension ms-vscode.cpptools \
 --install-extension ms-vscode.cpptools-extension-pack \
 --install-extension ms-vscode.cpptools-themes \
