@@ -2,7 +2,7 @@
 	path = .gitconfig_local
 	# machine specific settings
 [branch]
-    autoSetupMerge = always
+	autoSetupMerge = always
 [core]
 	excludesfile = ~/.gitignore_global
 [color]
@@ -59,8 +59,8 @@
 	wtl = worktree list
 	wtr = worktree remove
 [push]
-    autoSetupRemote = true
-    default = current
+	autoSetupRemote = true
+	default = current
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
