@@ -42,24 +42,42 @@ def parse_gitignore(gitignore_path):
 
 def is_ignored_by_git(file_path, gitignore_patterns):
     rel_path = os.path.relpath(file_path, dotfiles_dir)
+    ignored = False
 
     for pattern in gitignore_patterns:
+        negate = pattern.startswith('!')
+        if negate:
+            pattern = pattern[1:]
+
+        matched = False
         if pattern.endswith('/'):
             dir_pattern = pattern[:-1]
             if fnmatch.fnmatch(rel_path, dir_pattern) or fnmatch.fnmatch(rel_path, dir_pattern + '/*'):
-                return True
-            path_parts = rel_path.split(os.sep)
-            for i in range(len(path_parts)):
-                partial_path = os.sep.join(path_parts[:i+1])
-                if fnmatch.fnmatch(partial_path, dir_pattern):
-                    return True
+                matched = True
+            else:
+                path_parts = rel_path.split(os.sep)
+                for i in range(len(path_parts)):
+                    partial_path = os.sep.join(path_parts[:i+1])
+                    if fnmatch.fnmatch(partial_path, dir_pattern):
+                        matched = True
+                        break
         else:
             if fnmatch.fnmatch(rel_path, pattern):
-                return True
-            if '/' not in pattern and fnmatch.fnmatch(os.path.basename(rel_path), pattern):
-                return True
+                matched = True
+            elif '/' not in pattern and fnmatch.fnmatch(os.path.basename(rel_path), pattern):
+                matched = True
+            elif '/' not in pattern:
+                path_parts = rel_path.split(os.sep)
+                for i in range(len(path_parts)):
+                    partial_path = os.sep.join(path_parts[:i+1])
+                    if fnmatch.fnmatch(partial_path, pattern):
+                        matched = True
+                        break
 
-    return False
+        if matched:
+            ignored = not negate
+
+    return ignored
 
 
 def main():
@@ -78,11 +96,11 @@ Dotfiles deployment script.
     parser.add_argument('--dry-run', action='store_true', dest='dry_run', help='Dry run (does not affect any files)')
     args = parser.parse_args()
 
-    gitignore_path = os.path.join(dotfiles_dir, '.gitignore')
-    gitignore_patterns = parse_gitignore(gitignore_path)
-
     global_gitignore_path = os.path.join(dotfiles_dir, '.gitignore_global')
-    gitignore_patterns.extend(parse_gitignore(global_gitignore_path))
+    gitignore_patterns = parse_gitignore(global_gitignore_path)
+
+    gitignore_path = os.path.join(dotfiles_dir, '.gitignore')
+    gitignore_patterns.extend(parse_gitignore(gitignore_path))
 
     print("----------------------------\n"
           "Starting dotfiles deployment\n"
