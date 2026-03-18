@@ -48,12 +48,14 @@ Dotfiles deployment script.
         default="code",
         help='Path or name of VS Code executable to use for extensions (default: code)',
     )
+    parser.add_argument('-q', '--quiet', action='store_true', dest='quiet', help='Suppress informational output')
     parser.add_argument('--dry-run', action='store_true', dest='dry_run', help='Dry run (does not affect any files)')
     args = parser.parse_args()
 
-    print("----------------------------\n"
-          "Starting dotfiles deployment\n"
-          "----------------------------")
+    if not args.quiet:
+        print("----------------------------\n"
+              "Starting dotfiles deployment\n"
+              "----------------------------")
     for root, dirs, files in os.walk(dotfiles_dir):
         dirs[:] = [d for d in dirs if d not in exclude_dirs]
         for file in files:
@@ -76,7 +78,8 @@ Dotfiles deployment script.
             if not args.dry_run:
                 os.makedirs(os.path.dirname(home_path), exist_ok=True)
                 os.symlink(dotfiles_path, home_path)
-            print("Added symlink: " + dotfiles_path + " -> " + home_path)
+            if not args.quiet:
+                print("Added symlink: " + dotfiles_path + " -> " + home_path)
     if args.y or input("Do you want to install VSCode extensions? ").lower().startswith("y"):
         if not args.dry_run:
             vscode_exec = args.vscode_path
@@ -85,9 +88,10 @@ Dotfiles deployment script.
                 os.path.join(dotfiles_dir, "vscode-extensions.sh"),
                 vscode_exec,
             ])
-    print("----------------------------\n"
-          "Dotfiles deployment is done \n"
-          "----------------------------")
+    if not args.quiet:
+        print("----------------------------\n"
+              "Dotfiles deployment is done \n"
+              "----------------------------")
 
 
 if __name__ == "__main__":
