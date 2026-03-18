@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import argparse
-import fnmatch
 import os
 import subprocess
 
@@ -27,57 +26,13 @@ dotfiles_dir = os.path.dirname(os.path.abspath(__file__))
 home_dir = os.path.expanduser("~")
 
 
-def parse_gitignore(gitignore_path):
-    if not os.path.exists(gitignore_path):
-        return []
-
-    patterns = []
-    with open(gitignore_path, 'r', encoding='utf-8') as f:
-        for line in f:
-            line = line.strip()
-            if line and not line.startswith('#'):
-                patterns.append(line)
-    return patterns
-
-
-def is_ignored_by_git(file_path, gitignore_patterns):
-    rel_path = os.path.relpath(file_path, dotfiles_dir)
-    ignored = False
-
-    for pattern in gitignore_patterns:
-        negate = pattern.startswith('!')
-        if negate:
-            pattern = pattern[1:]
-
-        matched = False
-        if pattern.endswith('/'):
-            dir_pattern = pattern[:-1]
-            if fnmatch.fnmatch(rel_path, dir_pattern) or fnmatch.fnmatch(rel_path, dir_pattern + '/*'):
-                matched = True
-            else:
-                path_parts = rel_path.split(os.sep)
-                for i in range(len(path_parts)):
-                    partial_path = os.sep.join(path_parts[:i+1])
-                    if fnmatch.fnmatch(partial_path, dir_pattern):
-                        matched = True
-                        break
-        else:
-            if fnmatch.fnmatch(rel_path, pattern):
-                matched = True
-            elif '/' not in pattern and fnmatch.fnmatch(os.path.basename(rel_path), pattern):
-                matched = True
-            elif '/' not in pattern:
-                path_parts = rel_path.split(os.sep)
-                for i in range(len(path_parts)):
-                    partial_path = os.sep.join(path_parts[:i+1])
-                    if fnmatch.fnmatch(partial_path, pattern):
-                        matched = True
-                        break
-
-        if matched:
-            ignored = not negate
-
-    return ignored
+def is_ignored_by_git(file_path):
+    result = subprocess.run(
+        ["git", "check-ignore", "-q", file_path],
+        cwd=dotfiles_dir,
+        capture_output=True,
+    )
+    return result.returncode == 0
 
 
 def main():
@@ -96,12 +51,6 @@ Dotfiles deployment script.
     parser.add_argument('--dry-run', action='store_true', dest='dry_run', help='Dry run (does not affect any files)')
     args = parser.parse_args()
 
-    global_gitignore_path = os.path.join(dotfiles_dir, '.gitignore_global')
-    gitignore_patterns = parse_gitignore(global_gitignore_path)
-
-    gitignore_path = os.path.join(dotfiles_dir, '.gitignore')
-    gitignore_patterns.extend(parse_gitignore(gitignore_path))
-
     print("----------------------------\n"
           "Starting dotfiles deployment\n"
           "----------------------------")
@@ -112,7 +61,7 @@ Dotfiles deployment script.
                 continue
             dotfiles_path = os.path.join(root, file)
 
-            if is_ignored_by_git(dotfiles_path, gitignore_patterns):
+            if is_ignored_by_git(dotfiles_path):
                 continue
             home_path = os.path.join(root.replace(dotfiles_dir, home_dir), file)
             if os.path.islink(home_path) and os.readlink(home_path) == dotfiles_path:
