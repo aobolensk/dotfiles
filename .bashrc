@@ -94,3 +94,6 @@ export EDITOR=vim
 if [ "$(uname)" == "Darwin" ]; then
     eval $(/opt/homebrew/bin/brew shellenv)
 fi
+
+# Local machine-specific settings
+[ -f ~/.bashrc_local ] && . ~/.bashrc_local
