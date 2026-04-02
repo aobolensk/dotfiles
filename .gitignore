@@ -1,3 +1,5 @@
+!.claude/
+.claude/*
 !.claude/skills
 
 *.pyc
