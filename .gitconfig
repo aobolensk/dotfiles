@@ -15,6 +15,7 @@
 	c = commit
 	ca = commit --amend
 	cb = checkout -b
+	cco = "!cco() { git fetch --all --prune && git branch -D $1 2>/dev/null; git checkout $1; }; cco"
 	cl = clone --recurse-submodules
 	co = checkout
 	cp = cherry-pick
