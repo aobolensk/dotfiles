@@ -15,6 +15,7 @@ exclude_files = [
     "LICENSE",
     "README.md",
     "deploy.py",
+    "setup.cfg",
     "update.py",
     "vscode-extensions.sh"
 ]
