@@ -3,6 +3,7 @@
 # AI tools artifacts
 AGENTS.md
 .claude/
+.codex/
 .cursor/
 CLAUDE.md
 GEMINI.md
