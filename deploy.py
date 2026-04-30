@@ -2,6 +2,7 @@
 
 import argparse
 import os
+import shutil
 import subprocess
 
 exclude_dirs = [
@@ -80,6 +81,20 @@ Dotfiles deployment script.
                 os.symlink(dotfiles_path, home_path)
             if not args.quiet:
                 print("Added symlink: " + dotfiles_path + " -> " + home_path)
+    repo_agents_skills = os.path.join(dotfiles_dir, ".agents", "skills")
+    home_agents_skills = os.path.join(home_dir, ".agents", "skills")
+    if os.path.isdir(repo_agents_skills):
+        # Codex does not discover skills through symlinks, so materialize this mirror
+        # See https://github.com/openai/codex/issues/11314 and https://github.com/openai/codex/issues/15756
+        if os.path.lexists(home_agents_skills) and not args.dry_run:
+            if os.path.isdir(home_agents_skills) and not os.path.islink(home_agents_skills):
+                shutil.rmtree(home_agents_skills)
+            else:
+                os.remove(home_agents_skills)
+        if not args.dry_run:
+            shutil.copytree(repo_agents_skills, home_agents_skills)
+        if not args.quiet:
+            print("Copied skills: " + repo_agents_skills + " -> " + home_agents_skills)
     if args.y or input("Do you want to install VSCode extensions? ").lower().startswith("y"):
         if not args.dry_run:
             vscode_exec = args.vscode_path

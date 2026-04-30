@@ -37,6 +37,8 @@ $ brew install git python
 $ ./deploy.py
 ```
 
+`.agents/skills/` is copied to `~/.agents/skills/`
+
 ### Update VSCode extensions list
 
 ```bash
