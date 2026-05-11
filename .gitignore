@@ -1,5 +1,6 @@
 !.claude/
 .claude/*
+!.claude/hooks
 !.claude/skills
 
 .venv
