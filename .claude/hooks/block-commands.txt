@@ -1,0 +1,21 @@
+# Blocked shell commands. One prefix per line.
+# Match: first word = program; non-flag words = positional prefix (in order);
+# flag words (start with `-`) = must appear anywhere in args.
+# Example:
+#   git commit             matches `git commit ...`
+
+git commit
+git push
+git reset
+git checkout --
+
+gh pr create
+gh pr comment
+gh pr review
+gh pr merge
+gh pr close
+gh issue create
+gh issue comment
+gh issue review
+gh issue merge
+gh issue close
