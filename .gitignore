@@ -2,5 +2,7 @@
 .claude/*
 !.claude/skills
 
+.venv
+venv
 *.pyc
 .DS_Store
