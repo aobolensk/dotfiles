@@ -2,6 +2,7 @@
 .claude/*
 !.claude/hooks
 !.claude/skills
+!.claude/CLAUDE.md
 
 .venv
 venv
