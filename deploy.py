@@ -37,7 +37,7 @@ def is_ignored_by_git(file_path):
     return result.returncode == 0
 
 
-def main():
+def run_deploy():
     parser = argparse.ArgumentParser(description="""
 Dotfiles deployment script.
 - replaces user configuration files with symlinks to synchronized ones stored in this git repository.
@@ -108,6 +108,14 @@ Dotfiles deployment script.
         print("----------------------------\n"
               "Dotfiles deployment is done \n"
               "----------------------------")
+
+
+def main():
+    try:
+        run_deploy()
+    except KeyboardInterrupt:
+        print("\nAborted.")
+        raise SystemExit(130)
 
 
 if __name__ == "__main__":
