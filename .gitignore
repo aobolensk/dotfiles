@@ -3,6 +3,7 @@ dotfiles/.claude/*
 !dotfiles/.claude/hooks
 !dotfiles/.claude/skills
 !dotfiles/.claude/CLAUDE.md
+!dotfiles/.claude/settings.json
 
 dotfiles-*/
 
