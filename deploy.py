@@ -37,11 +37,9 @@ def discover_overlays():
 
 
 def deploy_overlay(overlay_path, args):
-    # If the overlay directory itself is gitignored in the public repo
-    # (e.g. dotfiles-private/), don't apply the per-file ignore filter inside
-    # it: the overlay has its own VCS rules, not ours.
     apply_ignore_filter = not is_ignored_by_git(overlay_path)
     for root, dirs, files in os.walk(overlay_path):
+        dirs[:] = [d for d in dirs if d not in (".git", ".hg", ".svn")]
         for file in files:
             if file == OVERLAY_MARKER:
                 continue
