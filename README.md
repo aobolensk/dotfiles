@@ -31,13 +31,21 @@ macOS:
 $ brew install git python
 ```
 
+### Layout
+
+Any top-level directory containing a `.dotfiles-overlay` marker is symlinked
+into `~` preserving relative paths (e.g. `dotfiles/.bashrc` → `~/.bashrc`).
+The default overlay is `dotfiles/`; drop additional overlay dirs (private,
+work, etc.) as siblings at the repo root and re-run `./deploy.py`.
+
 ### Deploy dotfiles
 
 ```bash
 $ ./deploy.py
 ```
 
-`.agents/skills/` is copied to `~/.agents/skills/`
+`dotfiles/.agents/skills/` is copied (not symlinked) to `~/.agents/skills/` for
+Codex compatibility.
 
 ### Update VSCode extensions list
 

@@ -5,20 +5,7 @@ import os
 import shutil
 import subprocess
 
-exclude_dirs = [
-    ".git",
-    ".github",
-    "__pycache__",
-]
-exclude_files = [
-    ".editorconfig",
-    "LICENSE",
-    "README.md",
-    "deploy.py",
-    "setup.cfg",
-    "update.py",
-    "vscode-extensions.sh"
-]
+OVERLAY_MARKER = ".dotfiles-overlay"
 
 sh_execute = "bash"
 
@@ -37,12 +24,70 @@ def is_ignored_by_git(file_path):
     return result.returncode == 0
 
 
+def discover_overlays():
+    overlays = []
+    for entry in sorted(os.listdir(dotfiles_dir)):
+        overlay_path = os.path.join(dotfiles_dir, entry)
+        if not os.path.isdir(overlay_path):
+            continue
+        if not os.path.isfile(os.path.join(overlay_path, OVERLAY_MARKER)):
+            continue
+        overlays.append(overlay_path)
+    return overlays
+
+
+def deploy_overlay(overlay_path, args):
+    apply_ignore_filter = not is_ignored_by_git(overlay_path)
+    for root, dirs, files in os.walk(overlay_path):
+        dirs[:] = [d for d in dirs if d not in (".git", ".hg", ".svn")]
+        for file in files:
+            if file == OVERLAY_MARKER:
+                continue
+            overlay_file_path = os.path.join(root, file)
+            if apply_ignore_filter and is_ignored_by_git(overlay_file_path):
+                continue
+            home_path = os.path.join(root.replace(overlay_path, home_dir), file)
+            if os.path.islink(home_path) and os.readlink(home_path) == overlay_file_path:
+                continue
+            if os.path.lexists(home_path):
+                if not args.y and not input(
+                        "Do you want to replace " +
+                        overlay_file_path + " -> " + home_path + "? ").lower().startswith("y"):
+                    continue
+                if not args.dry_run:
+                    os.remove(home_path)
+            if not args.dry_run:
+                os.makedirs(os.path.dirname(home_path), exist_ok=True)
+                os.symlink(overlay_file_path, home_path)
+            if not args.quiet:
+                print("Added symlink: " + overlay_file_path + " -> " + home_path)
+
+
+def materialize_codex_skills(overlay_path, args):
+    # Codex does not discover skills through symlinks, so materialize a copy
+    # See https://github.com/openai/codex/issues/11314 and https://github.com/openai/codex/issues/15756
+    repo_agents_skills = os.path.join(overlay_path, ".agents", "skills")
+    home_agents_skills = os.path.join(home_dir, ".agents", "skills")
+    if not os.path.isdir(repo_agents_skills):
+        return
+    if os.path.lexists(home_agents_skills) and not args.dry_run:
+        if os.path.isdir(home_agents_skills) and not os.path.islink(home_agents_skills):
+            shutil.rmtree(home_agents_skills)
+        else:
+            os.remove(home_agents_skills)
+    if not args.dry_run:
+        shutil.copytree(repo_agents_skills, home_agents_skills)
+    if not args.quiet:
+        print("Copied skills: " + repo_agents_skills + " -> " + home_agents_skills)
+
+
 def run_deploy():
     parser = argparse.ArgumentParser(description="""
 Dotfiles deployment script.
-- replaces user configuration files with symlinks to synchronized ones stored in this git repository.
+- discovers every top-level directory containing a `{marker}` file and treats
+  it as an overlay whose contents are symlinked into ~ preserving relative paths.
 - runs installation scripts for extensions.
-""", formatter_class=argparse.RawTextHelpFormatter)
+""".format(marker=OVERLAY_MARKER), formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('-y', action='store_true', dest='y', help='Force yes')
     parser.add_argument(
         '--vscode-path',
@@ -58,44 +103,14 @@ Dotfiles deployment script.
         print("----------------------------\n"
               "Starting dotfiles deployment\n"
               "----------------------------")
-    for root, dirs, files in os.walk(dotfiles_dir):
-        dirs[:] = [d for d in dirs if d not in exclude_dirs]
-        for file in files:
-            if file in exclude_files:
-                continue
-            dotfiles_path = os.path.join(root, file)
-
-            if is_ignored_by_git(dotfiles_path):
-                continue
-            home_path = os.path.join(root.replace(dotfiles_dir, home_dir), file)
-            if os.path.islink(home_path) and os.readlink(home_path) == dotfiles_path:
-                continue
-            if os.path.lexists(home_path):
-                if not args.y and not input(
-                        "Do you want to replace " +
-                        dotfiles_path + " -> " + home_path + "? ").lower().startswith("y"):
-                    continue
-                if not args.dry_run:
-                    os.remove(home_path)
-            if not args.dry_run:
-                os.makedirs(os.path.dirname(home_path), exist_ok=True)
-                os.symlink(dotfiles_path, home_path)
-            if not args.quiet:
-                print("Added symlink: " + dotfiles_path + " -> " + home_path)
-    repo_agents_skills = os.path.join(dotfiles_dir, ".agents", "skills")
-    home_agents_skills = os.path.join(home_dir, ".agents", "skills")
-    if os.path.isdir(repo_agents_skills):
-        # Codex does not discover skills through symlinks, so materialize this mirror
-        # See https://github.com/openai/codex/issues/11314 and https://github.com/openai/codex/issues/15756
-        if os.path.lexists(home_agents_skills) and not args.dry_run:
-            if os.path.isdir(home_agents_skills) and not os.path.islink(home_agents_skills):
-                shutil.rmtree(home_agents_skills)
-            else:
-                os.remove(home_agents_skills)
-        if not args.dry_run:
-            shutil.copytree(repo_agents_skills, home_agents_skills)
+    overlays = discover_overlays()
+    if not overlays and not args.quiet:
+        print("No overlays found (looking for directories containing " + OVERLAY_MARKER + ").")
+    for overlay_path in overlays:
         if not args.quiet:
-            print("Copied skills: " + repo_agents_skills + " -> " + home_agents_skills)
+            print("Deploying overlay: " + overlay_path)
+        deploy_overlay(overlay_path, args)
+        materialize_codex_skills(overlay_path, args)
     if args.y or input("Do you want to install VSCode extensions? ").lower().startswith("y"):
         if not args.dry_run:
             vscode_exec = args.vscode_path

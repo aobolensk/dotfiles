@@ -1,8 +1,10 @@
-!.claude/
-.claude/*
-!.claude/hooks
-!.claude/skills
-!.claude/CLAUDE.md
+!dotfiles/.claude/
+dotfiles/.claude/*
+!dotfiles/.claude/hooks
+!dotfiles/.claude/skills
+!dotfiles/.claude/CLAUDE.md
+
+dotfiles-*/
 
 .venv
 venv
