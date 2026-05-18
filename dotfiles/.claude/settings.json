@@ -1,5 +1,6 @@
 {
   "model": "opus",
+  "cleanupPeriodDays": 3650,
   "effortLevel": "xhigh",
   "hooks": {
     "PreToolUse": [
