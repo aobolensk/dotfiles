@@ -16,7 +16,7 @@ The user may provide:
 
 ## Steps
 
-1. Identify the PR. If not provided, assume the PR associated with the current branch (e.g. `gh pr view --json number,url`). If no PR is associated with the current branch, ask the user to pick one.
+1. Identify the PR. If not provided, run the sibling `./find-pr.sh` to get the PR number for the current branch. If it exits non-zero, ask the user to pick one.
 2. Fetch review comments:
    ```
    gh api repos/{owner}/{repo}/pulls/{number}/comments --paginate
