@@ -7,6 +7,14 @@ import subprocess
 
 OVERLAY_MARKER = ".dotfiles-overlay"
 
+OVERLAY_SKIP_ROOT_FILES = {
+    OVERLAY_MARKER,
+    ".gitignore",
+    ".gitattributes",
+    ".gitmodules",
+    "README.md",
+}
+
 sh_execute = "bash"
 
 dotfiles_dir = os.path.dirname(os.path.abspath(__file__))
@@ -41,7 +49,7 @@ def deploy_overlay(overlay_path, args):
     for root, dirs, files in os.walk(overlay_path):
         dirs[:] = [d for d in dirs if d not in (".git", ".hg", ".svn")]
         for file in files:
-            if file == OVERLAY_MARKER:
+            if root == overlay_path and file in OVERLAY_SKIP_ROOT_FILES:
                 continue
             overlay_file_path = os.path.join(root, file)
             if apply_ignore_filter and is_ignored_by_git(overlay_file_path):
