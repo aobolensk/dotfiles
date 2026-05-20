@@ -6,3 +6,6 @@
 - Prefer a proper root-cause fix over a workaround. If only a workaround is feasible, label it as such and ask before applying it.
 - Before inventing a pattern, check how sibling backends and neighbouring code already solve the same problem and mirror that approach.
 - Do not expand scope beyond what was asked: no opportunistic refactors, renames, or out of scope cleanups. Ask first if the change is indeed desired.
+- Generated artifacts (commits, PRs, comments, TODOs, scripts, repros) take the shortest form that conveys the change. Commits: one-line subject, 0-2 sentence body. No diff recap, no banner comments, no narrative echo lines.
+- Match reply length to the question. No preamble, no "let me...". End-of-turn summary: one sentence or none.
+- Reviews/suggestions/analyses: lead with the top finding; surface only items worth acting on. No mixed critical-plus-nits lists.
