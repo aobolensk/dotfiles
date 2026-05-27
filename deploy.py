@@ -71,22 +71,30 @@ def deploy_overlay(overlay_path, args):
                 print("Added symlink: " + overlay_file_path + " -> " + home_path)
 
 
-def materialize_codex_skills(overlay_path, args):
+def materialize_codex_skills(overlay_path, args, reset_target):
     # Codex does not discover skills through symlinks, so materialize a copy
     # See https://github.com/openai/codex/issues/11314 and https://github.com/openai/codex/issues/15756
-    repo_agents_skills = os.path.join(overlay_path, ".agents", "skills")
     home_agents_skills = os.path.join(home_dir, ".agents", "skills")
-    if not os.path.isdir(repo_agents_skills):
-        return
-    if os.path.lexists(home_agents_skills) and not args.dry_run:
+    skill_dirs = []
+    for skill_dir in (".agents/skills", ".claude/skills"):
+        skill_dir = os.path.join(overlay_path, skill_dir)
+        if os.path.isdir(skill_dir) and os.path.realpath(skill_dir) not in skill_dirs:
+            skill_dirs.append(os.path.realpath(skill_dir))
+    if not skill_dirs:
+        return False
+    if reset_target and os.path.lexists(home_agents_skills) and not args.dry_run:
         if os.path.isdir(home_agents_skills) and not os.path.islink(home_agents_skills):
             shutil.rmtree(home_agents_skills)
         else:
             os.remove(home_agents_skills)
     if not args.dry_run:
-        shutil.copytree(repo_agents_skills, home_agents_skills)
-    if not args.quiet:
-        print("Copied skills: " + repo_agents_skills + " -> " + home_agents_skills)
+        os.makedirs(home_agents_skills, exist_ok=True)
+    for skill_dir in skill_dirs:
+        if not args.dry_run:
+            shutil.copytree(skill_dir, home_agents_skills, dirs_exist_ok=True)
+        if not args.quiet:
+            print("Copied skills: " + skill_dir + " -> " + home_agents_skills)
+    return True
 
 
 def run_deploy():
@@ -114,11 +122,13 @@ Dotfiles deployment script.
     overlays = discover_overlays()
     if not overlays and not args.quiet:
         print("No overlays found (looking for directories containing " + OVERLAY_MARKER + ").")
+    reset_codex_skills = True
     for overlay_path in overlays:
         if not args.quiet:
             print("Deploying overlay: " + overlay_path)
         deploy_overlay(overlay_path, args)
-        materialize_codex_skills(overlay_path, args)
+        if materialize_codex_skills(overlay_path, args, reset_codex_skills):
+            reset_codex_skills = False
     if args.y or input("Do you want to install VSCode extensions? ").lower().startswith("y"):
         if not args.dry_run:
             vscode_exec = args.vscode_path
