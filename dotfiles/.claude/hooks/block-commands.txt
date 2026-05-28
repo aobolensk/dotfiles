@@ -4,6 +4,8 @@
 # Example:
 #   git commit             matches `git commit ...`
 
+sudo
+
 git commit
 git push
 git reset
