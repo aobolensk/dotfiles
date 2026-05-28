@@ -111,6 +111,12 @@ Dotfiles deployment script.
         default="code",
         help='Path or name of VS Code executable to use for extensions (default: code)',
     )
+    parser.add_argument(
+        '--no-vscode-extensions',
+        action='store_true',
+        dest='no_vscode_extensions',
+        help='Skip VS Code extension installation',
+    )
     parser.add_argument('-q', '--quiet', action='store_true', dest='quiet', help='Suppress informational output')
     parser.add_argument('--dry-run', action='store_true', dest='dry_run', help='Dry run (does not affect any files)')
     args = parser.parse_args()
@@ -129,7 +135,10 @@ Dotfiles deployment script.
         deploy_overlay(overlay_path, args)
         if materialize_codex_skills(overlay_path, args, reset_codex_skills):
             reset_codex_skills = False
-    if args.y or input("Do you want to install VSCode extensions? ").lower().startswith("y"):
+    install_vscode_extensions = not args.no_vscode_extensions and (
+        args.y or input("Do you want to install VSCode extensions? ").lower().startswith("y")
+    )
+    if install_vscode_extensions:
         if not args.dry_run:
             vscode_exec = args.vscode_path
             subprocess.call([
