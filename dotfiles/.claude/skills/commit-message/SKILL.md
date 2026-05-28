@@ -18,4 +18,5 @@ Generate a commit message for the current staged changes. Do NOT create a commit
    - Has NO body by default. Only add a body when the diff has a non-obvious *why* that the subject cannot convey (e.g. a workaround, a constraint, a revert reason). If you add one, keep it to 1–3 short lines and explain *why*, not *what* — never restate the diff or list changed files/functions.
    - Mirrors the body-length norm in `git log` — if recent commits in this repo are subject-only, yours must be too.
    - Does NOT include any Co-Authored-By lines
+   - Is derived from the staged diff only — do NOT infer intent, scope, or prefix from the current branch name
 5. Output the suggested commit message in a fenced code block so the user can copy it.
