@@ -33,4 +33,5 @@ The user may provide:
    - Make the requested change. If the comment is ambiguous, ask the user before changing code.
    - Do not commit, stage or unstage any changes.
    - If the reviewer asks a question. Provide a reply, but do not post it automatically.
-6. After all changes are made, show a summary of what was done per comment.
+6. After all changes are made, build and test the project to confirm the changes are correct. If the build or tests fail, fix the issues before proceeding.
+7. Show a summary of what was done per comment.
