@@ -9,6 +9,8 @@ Generate a commit message for the current staged changes. Do NOT create a commit
 
 ## Steps
 
+**Every invocation must re-run the commands below from scratch.** Staged contents change between invocations (commits land, stages get extended or reset, branches switch). Never reuse a message you generated earlier in the session — re-read the diff first, even on back-to-back invocations.
+
 1. Run `git log --oneline -20` to learn the repo's commit message style (format, casing, prefixes, conventional commits, etc.).
 2. Run `git diff --cached --stat` to check for staged changes. If nothing is staged, inform the user and stop.
 3. Run `git diff --cached` to read the staged changes.
