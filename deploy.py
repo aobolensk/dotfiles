@@ -94,6 +94,14 @@ def materialize_codex_skills(overlay_path, args, reset_target):
             shutil.copytree(skill_dir, home_agents_skills, dirs_exist_ok=True)
         if not args.quiet:
             print("Copied skills: " + skill_dir + " -> " + home_agents_skills)
+    # Symlink ~/.gemini/skills to ~/.agents/skills
+    if not args.dry_run:
+        os.makedirs(os.path.join(home_dir, ".gemini"), exist_ok=True)
+        try:
+            os.symlink(home_agents_skills, os.path.join(home_dir, ".gemini", "skills"))
+        except FileExistsError:
+            pass
+
     return True
 
 
