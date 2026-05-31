@@ -2,6 +2,7 @@
 
 # AI tools artifacts
 AGENTS.md
+.antigravitycli/
 .claude/
 .codex/
 .cursor/
