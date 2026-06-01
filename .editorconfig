@@ -17,14 +17,14 @@ indent_size = 2
 indent_style = space
 indent_size = 2
 
-[.config/i3/**]
+[dotfiles/.config/i3/**]
 indent_style = space
 indent_size = 8
 
-[{.bashrc,.bash_aliases}]
+[{dotfiles/.bashrc,dotfiles/.bash_aliases}]
 indent_style = space
 indent_size = 4
 
-[.gitconfig]
+[dotfiles/.gitconfig]
 indent_style = tabs
 indent_size = 4
