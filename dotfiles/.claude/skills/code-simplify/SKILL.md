@@ -24,7 +24,7 @@ Use this skill when the user asks to:
 ## Rules
 
 1. Preserve existing behavior unless the user explicitly asks for behavior changes.
-2. Prefer small, obvious improvements over large rewrites.
+2. Modify only code the user is working on, preferring small, scoped improvements over large rewrites.
 3. Do not introduce new dependencies unless clearly justified.
 4. Do not redesign architecture unless the current design is causing real complexity.
 5. Keep public APIs stable unless the user asks otherwise.
@@ -70,4 +70,4 @@ After changes, report:
 
 ## Default behavior
 
-If the requested simplification is broad, start with local, low-risk edits. Do not perform a large rewrite unless the user explicitly asks for it.
+If the requested simplification is broad, start with local, low-risk edits. Do not perform a large rewrite or repo-wide cleanup unless the user explicitly asks for it.
