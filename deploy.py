@@ -15,8 +15,6 @@ OVERLAY_SKIP_ROOT_FILES = {
     "README.md",
 }
 
-sh_execute = "bash"
-
 dotfiles_dir = os.path.dirname(os.path.abspath(__file__))
 # Use os.path.expanduser to determine the user's home directory in a
 # platform independent manner even if the HOME environment variable is not set.
@@ -32,16 +30,20 @@ def is_ignored_by_git(file_path):
     return result.returncode == 0
 
 
+def log(args, message):
+    if not args.quiet:
+        print(message)
+
+
+def confirm(args, prompt):
+    return args.y or input(prompt).lower().startswith("y")
+
+
 def discover_overlays():
-    overlays = []
     for entry in sorted(os.listdir(dotfiles_dir)):
         overlay_path = os.path.join(dotfiles_dir, entry)
-        if not os.path.isdir(overlay_path):
-            continue
-        if not os.path.isfile(os.path.join(overlay_path, OVERLAY_MARKER)):
-            continue
-        overlays.append(overlay_path)
-    return overlays
+        if os.path.isdir(overlay_path) and os.path.isfile(os.path.join(overlay_path, OVERLAY_MARKER)):
+            yield overlay_path
 
 
 def deploy_overlay(overlay_path, args):
@@ -54,21 +56,18 @@ def deploy_overlay(overlay_path, args):
             overlay_file_path = os.path.join(root, file)
             if apply_ignore_filter and is_ignored_by_git(overlay_file_path):
                 continue
-            home_path = os.path.join(root.replace(overlay_path, home_dir), file)
+            home_path = os.path.join(home_dir, os.path.relpath(overlay_file_path, overlay_path))
             if os.path.islink(home_path) and os.readlink(home_path) == overlay_file_path:
                 continue
             if os.path.lexists(home_path):
-                if not args.y and not input(
-                        "Do you want to replace " +
-                        overlay_file_path + " -> " + home_path + "? ").lower().startswith("y"):
+                if not confirm(args, f"Do you want to replace {overlay_file_path} -> {home_path}? "):
                     continue
                 if not args.dry_run:
                     os.remove(home_path)
             if not args.dry_run:
                 os.makedirs(os.path.dirname(home_path), exist_ok=True)
                 os.symlink(overlay_file_path, home_path)
-            if not args.quiet:
-                print("Added symlink: " + overlay_file_path + " -> " + home_path)
+            log(args, f"Added symlink: {overlay_file_path} -> {home_path}")
 
 
 def materialize_codex_skills(overlay_path, args, reset_target):
@@ -77,9 +76,9 @@ def materialize_codex_skills(overlay_path, args, reset_target):
     home_agents_skills = os.path.join(home_dir, ".agents", "skills")
     skill_dirs = []
     for skill_dir in (".agents/skills", ".claude/skills"):
-        skill_dir = os.path.join(overlay_path, skill_dir)
-        if os.path.isdir(skill_dir) and os.path.realpath(skill_dir) not in skill_dirs:
-            skill_dirs.append(os.path.realpath(skill_dir))
+        skill_dir = os.path.realpath(os.path.join(overlay_path, skill_dir))
+        if os.path.isdir(skill_dir) and skill_dir not in skill_dirs:
+            skill_dirs.append(skill_dir)
     if not skill_dirs:
         return False
     if reset_target and os.path.lexists(home_agents_skills) and not args.dry_run:
@@ -92,8 +91,7 @@ def materialize_codex_skills(overlay_path, args, reset_target):
     for skill_dir in skill_dirs:
         if not args.dry_run:
             shutil.copytree(skill_dir, home_agents_skills, dirs_exist_ok=True)
-        if not args.quiet:
-            print("Copied skills: " + skill_dir + " -> " + home_agents_skills)
+        log(args, f"Copied skills: {skill_dir} -> {home_agents_skills}")
     # Symlink ~/.gemini/skills to ~/.agents/skills
     if not args.dry_run:
         os.makedirs(os.path.join(home_dir, ".gemini"), exist_ok=True)
@@ -106,56 +104,48 @@ def materialize_codex_skills(overlay_path, args, reset_target):
 
 
 def run_deploy():
-    parser = argparse.ArgumentParser(description="""
+    parser = argparse.ArgumentParser(
+        description="""
 Dotfiles deployment script.
 - discovers every top-level directory containing a `{marker}` file and treats
   it as an overlay whose contents are symlinked into ~ preserving relative paths.
 - runs installation scripts for extensions.
 """.format(marker=OVERLAY_MARKER), formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument('-y', action='store_true', dest='y', help='Force yes')
+    parser.add_argument('-y', action='store_true', help='Force yes')
     parser.add_argument(
         '--vscode-path',
-        dest='vscode_path',
         default="code",
         help='Path or name of VS Code executable to use for extensions (default: code)',
     )
     parser.add_argument(
         '--no-vscode-extensions',
         action='store_true',
-        dest='no_vscode_extensions',
         help='Skip VS Code extension installation',
     )
-    parser.add_argument('-q', '--quiet', action='store_true', dest='quiet', help='Suppress informational output')
-    parser.add_argument('--dry-run', action='store_true', dest='dry_run', help='Dry run (does not affect any files)')
+    parser.add_argument('-q', '--quiet', action='store_true', help='Suppress informational output')
+    parser.add_argument('--dry-run', action='store_true', help='Dry run (does not affect any files)')
     args = parser.parse_args()
 
-    if not args.quiet:
-        print("----------------------------\n"
+    log(args, "----------------------------\n"
               "Starting dotfiles deployment\n"
               "----------------------------")
-    overlays = discover_overlays()
-    if not overlays and not args.quiet:
-        print("No overlays found (looking for directories containing " + OVERLAY_MARKER + ").")
+    found_overlay = False
     reset_codex_skills = True
-    for overlay_path in overlays:
-        if not args.quiet:
-            print("Deploying overlay: " + overlay_path)
+    for overlay_path in discover_overlays():
+        found_overlay = True
+        log(args, f"Deploying overlay: {overlay_path}")
         deploy_overlay(overlay_path, args)
         if materialize_codex_skills(overlay_path, args, reset_codex_skills):
             reset_codex_skills = False
-    install_vscode_extensions = not args.no_vscode_extensions and (
-        args.y or input("Do you want to install VSCode extensions? ").lower().startswith("y")
-    )
-    if install_vscode_extensions:
-        if not args.dry_run:
-            vscode_exec = args.vscode_path
-            subprocess.call([
-                sh_execute,
-                os.path.join(dotfiles_dir, "vscode-extensions.sh"),
-                vscode_exec,
-            ])
-    if not args.quiet:
-        print("----------------------------\n"
+    if not found_overlay:
+        log(args, f"No overlays found (looking for directories containing {OVERLAY_MARKER}).")
+    if (
+        not args.no_vscode_extensions
+        and confirm(args, "Do you want to install VSCode extensions? ")
+        and not args.dry_run
+    ):
+        subprocess.call(["bash", os.path.join(dotfiles_dir, "vscode-extensions.sh"), args.vscode_path])
+    log(args, "----------------------------\n"
               "Dotfiles deployment is done \n"
               "----------------------------")
 
