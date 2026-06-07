@@ -23,7 +23,6 @@ vscode_exec=${1:-code}
 --install-extension flutterando.flutter-coverage \
 --install-extension formulahendry.code-runner \
 --install-extension galarius.vscode-opencl \
---install-extension github.copilot-chat \
 --install-extension github.vscode-github-actions \
 --install-extension github.vscode-pull-request-github \
 --install-extension golang.go \
