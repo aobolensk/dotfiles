@@ -5,6 +5,11 @@ dotfiles/.claude/*
 !dotfiles/.claude/CLAUDE.md
 !dotfiles/.claude/settings.json
 
+!dotfiles/.codex/
+dotfiles/.codex/*
+!dotfiles/.codex/hooks.json
+!dotfiles/.codex/config.toml
+
 dotfiles-*/
 
 .venv

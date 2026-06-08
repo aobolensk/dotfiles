@@ -1,0 +1,30 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/block-commands.py",
+            "timeout": 10,
+            "statusMessage": "block-commands"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "apply_patch|Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/clang-format.py",
+            "timeout": 35,
+            "statusMessage": "clang-format"
+          }
+        ]
+      }
+    ]
+  }
+}
