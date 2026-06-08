@@ -1,0 +1,70 @@
+#!/usr/bin/env python3
+# Re-run failed workflow runs for a GitHub PR.
+# Usage: gh-rerun-failed [PR] [-R owner/repo] [--all]
+#   PR defaults to the PR for the current branch.
+#   --all re-runs all jobs of failed runs, not just failed jobs.
+
+import argparse
+import json
+import subprocess
+import sys
+
+
+def gh(*args):
+    out = subprocess.run(["gh", *args], capture_output=True, text=True)
+    if out.returncode != 0:
+        sys.exit(out.stderr.strip() or f"gh {' '.join(args)} failed")
+    return out.stdout
+
+
+def resolve_pr(repo):
+    # `gh pr view` cannot resolve PRs whose head is a fork branch; fall back to
+    # looking the PR up by the current branch name.
+    out = subprocess.run(
+        ["gh", "pr", "view", *repo, "--json", "number"],
+        capture_output=True, text=True,
+    )
+    if out.returncode == 0:
+        return json.loads(out.stdout)["number"]
+
+    branch = subprocess.run(
+        ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+        capture_output=True, text=True,
+    ).stdout.strip()
+    prs = json.loads(gh("pr", "list", *repo, "--head", branch, "--json", "number"))
+    if not prs:
+        sys.exit(out.stderr.strip() or f"no PR found for branch {branch!r}")
+    return prs[0]["number"]
+
+
+def main():
+    p = argparse.ArgumentParser()
+    p.add_argument("pr", nargs="?", help="PR number (default: current branch)")
+    p.add_argument("-R", "--repo", help="owner/repo")
+    p.add_argument("--all", action="store_true", help="re-run all jobs, not just failed")
+    args = p.parse_args()
+
+    repo = ["-R", args.repo] if args.repo else []
+    pr = args.pr or resolve_pr(repo)
+
+    checks = json.loads(gh("pr", "checks", str(pr), *repo, "--json", "state,link"))
+    failed_ids = set()
+    for c in checks:
+        if c.get("state") in ("FAILURE", "TIMED_OUT", "CANCELLED", "STARTUP_FAILURE"):
+            link = c.get("link", "")
+            rid = next((seg for seg in link.split("/") if seg.isdigit()), None)
+            if rid:
+                failed_ids.add(rid)
+
+    if not failed_ids:
+        print(f"PR #{pr}: no failed runs")
+        return
+
+    flag = [] if args.all else ["--failed"]
+    for rid in sorted(failed_ids):
+        print(f"re-running run {rid}")
+        gh("run", "rerun", rid, *repo, *flag)
+
+
+if __name__ == "__main__":
+    main()
