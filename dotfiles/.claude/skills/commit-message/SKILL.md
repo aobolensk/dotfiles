@@ -21,4 +21,4 @@ Generate a commit message for the current staged changes. Do NOT create a commit
    - Mirrors the body-length norm in `git log` — if recent commits in this repo are subject-only, yours must be too.
    - Does NOT include any Co-Authored-By lines
    - Is derived from the staged diff only — do NOT infer intent, scope, or prefix from the current branch name
-5. Output the suggested commit message in a fenced code block so the user can copy it.
+5. On success, output ONLY the commit message in a fenced code block — no preamble, explanation, or trailing commentary.
