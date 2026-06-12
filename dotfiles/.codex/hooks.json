@@ -11,6 +11,17 @@
             "statusMessage": "block-commands"
           }
         ]
+      },
+      {
+        "matcher": "Read|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/block-reads.py",
+            "timeout": 10,
+            "statusMessage": "block-reads"
+          }
+        ]
       }
     ],
     "PostToolUse": [

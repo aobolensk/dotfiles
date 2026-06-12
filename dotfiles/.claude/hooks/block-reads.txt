@@ -1,0 +1,6 @@
+# Blocked file reads. One glob pattern per line.
+# A pattern matches if it fnmatch-matches either the file's basename
+# or its full path. Patterns containing `/` are matched against the
+# path only; bare patterns are matched against the basename only.
+
+.env
