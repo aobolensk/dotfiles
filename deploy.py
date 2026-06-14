@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import datetime
 import os
 import shutil
 import subprocess
@@ -39,6 +40,37 @@ def confirm(args, prompt):
     return args.y or input(prompt).lower().startswith("y")
 
 
+def get_backup_root(args):
+    if not args.backup_timestamp:
+        args.backup_timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+    return os.path.join(args.backup_dir, args.backup_timestamp)
+
+
+def get_backup_path(path, args):
+    relative_path = os.path.relpath(path, home_dir)
+    backup_path = os.path.join(get_backup_root(args), relative_path)
+    if not os.path.lexists(backup_path):
+        return backup_path
+
+    suffix = 1
+    while True:
+        candidate_path = f"{backup_path}.{suffix}"
+        if not os.path.lexists(candidate_path):
+            return candidate_path
+        suffix += 1
+
+
+def remove_or_backup_existing_path(path, args):
+    if not args.backup:
+        os.remove(path)
+        return
+
+    backup_path = get_backup_path(path, args)
+    os.makedirs(os.path.dirname(backup_path), exist_ok=True)
+    shutil.move(path, backup_path)
+    log(args, f"Backed up: {path} -> {backup_path}")
+
+
 def discover_overlays():
     for entry in sorted(os.listdir(dotfiles_dir)):
         overlay_path = os.path.join(dotfiles_dir, entry)
@@ -63,7 +95,10 @@ def deploy_overlay(overlay_path, args):
                 if not confirm(args, f"Do you want to replace {overlay_file_path} -> {home_path}? "):
                     continue
                 if not args.dry_run:
-                    os.remove(home_path)
+                    remove_or_backup_existing_path(home_path, args)
+                elif args.backup:
+                    backup_path = get_backup_path(home_path, args)
+                    log(args, f"Back up: {home_path} -> {backup_path}")
             if not args.dry_run:
                 os.makedirs(os.path.dirname(home_path), exist_ok=True)
                 os.symlink(overlay_file_path, home_path)
@@ -124,7 +159,19 @@ Dotfiles deployment script.
     )
     parser.add_argument('-q', '--quiet', action='store_true', help='Suppress informational output')
     parser.add_argument('--dry-run', action='store_true', help='Dry run (does not affect any files)')
+    parser.add_argument(
+        '--backup',
+        action='store_true',
+        help='Move replaced files into a timestamped backup directory instead of deleting them',
+    )
+    parser.add_argument(
+        '--backup-dir',
+        default=os.path.join(home_dir, ".dotfiles-backup"),
+        help='Directory for backups when --backup is used (default: ~/.dotfiles-backup)',
+    )
     args = parser.parse_args()
+    args.backup_dir = os.path.abspath(os.path.expanduser(args.backup_dir))
+    args.backup_timestamp = None
 
     log(args, "----------------------------\n"
               "Starting dotfiles deployment\n"
