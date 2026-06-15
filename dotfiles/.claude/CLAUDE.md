@@ -9,4 +9,4 @@
 - Generated artifacts (commits, PRs, comments, TODOs, scripts, repros) take the shortest form conveying the change. Commits: one-line subject, 0-2 sentence body. No diff recap, banner comments, or narrative echo.
 - Match reply length to the question. No preamble or "let me...". End-of-turn summary: one sentence or none.
 - Reviews/suggestions/analyses: lead with the top finding; surface only items worth acting on. No mixed critical-plus-nits lists.
-- Do not use 'possessive ’s' in code comments.
+- Do not use 'possessive ’s' in code comments, commit messages and other texts.
