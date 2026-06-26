@@ -1,5 +1,5 @@
 {
-  "model": "opus",
+  "model": "sonnet",
   "cleanupPeriodDays": 3650,
   "effortLevel": "xhigh",
   "hooks": {
