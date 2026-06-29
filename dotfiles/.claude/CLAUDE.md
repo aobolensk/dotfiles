@@ -10,3 +10,4 @@
 - Match reply length to the question. No preamble or "let me...". End-of-turn summary: one sentence or none.
 - Reviews/suggestions/analyses: lead with the top finding; surface only items worth acting on. No mixed critical-plus-nits lists.
 - Do not use 'possessive ’s' in code comments, commit messages and other texts.
+- In code comments: no em-dashes, no non-ASCII symbols (arrows, Unicode bullets, etc.), and no semicolons.
