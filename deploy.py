@@ -62,13 +62,17 @@ def get_backup_path(path, args):
 
 def remove_or_backup_existing_path(path, args):
     if not args.backup:
+        if os.path.isdir(path) and not os.path.islink(path):
+            log(args, f"Error: {path} is a real directory; use --backup to replace it safely.")
+            return False
         os.remove(path)
-        return
+        return True
 
     backup_path = get_backup_path(path, args)
     os.makedirs(os.path.dirname(backup_path), exist_ok=True)
     shutil.move(path, backup_path)
     log(args, f"Backed up: {path} -> {backup_path}")
+    return True
 
 
 def discover_overlays():
@@ -95,7 +99,11 @@ def deploy_overlay(overlay_path, args):
                 if not confirm(args, f"Do you want to replace {overlay_file_path} -> {home_path}? "):
                     continue
                 if not args.dry_run:
-                    remove_or_backup_existing_path(home_path, args)
+                    if not remove_or_backup_existing_path(home_path, args):
+                        continue
+                elif os.path.isdir(home_path) and not os.path.islink(home_path) and not args.backup:
+                    log(args, f"Error: {home_path} is a real directory; use --backup to replace it safely.")
+                    continue
                 elif args.backup:
                     backup_path = get_backup_path(home_path, args)
                     log(args, f"Back up: {home_path} -> {backup_path}")
