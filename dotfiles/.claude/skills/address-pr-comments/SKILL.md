@@ -17,13 +17,11 @@ The user may provide:
 ## Steps
 
 1. Identify the PR. If not provided, run `~/.claude/skills/_lib/find-pr.sh` to get the PR number for the current branch. If it exits non-zero, ask the user to pick one.
-2. Fetch review comments:
+2. Fetch comments from all three endpoints:
    ```
-   gh api repos/{owner}/{repo}/pulls/{number}/comments --paginate
-   ```
-   Also fetch review-level comments:
-   ```
-   gh api repos/{owner}/{repo}/pulls/{number}/reviews --paginate
+   gh api repos/{owner}/{repo}/pulls/{number}/comments --paginate   # inline (file/line) review comments
+   gh api repos/{owner}/{repo}/pulls/{number}/reviews --paginate     # review-level summary bodies
+   gh api repos/{owner}/{repo}/issues/{number}/comments --paginate   # general PR conversation comments
    ```
 3. Filter to unresolved/pending comments. If a reviewer filter was given, narrow to that reviewer. Show the user a summary: reviewer, file, line, and comment snippet for each.
 4. Address all unresolved comments by default. If the user specified a filter (reviewer, topic), address only matching comments.
