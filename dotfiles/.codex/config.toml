@@ -1,2 +1,13 @@
 [features]
 hooks = true
+
+[tui]
+status_line = [
+    "git-branch",
+    "model-with-reasoning",
+    "context-usage",
+    "used-tokens",
+    "total-output-tokens",
+    "five-hour-limit",
+    "weekly-limit",
+]
