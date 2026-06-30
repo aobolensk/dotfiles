@@ -1,7 +1,6 @@
 {
-  "model": "sonnet",
   "cleanupPeriodDays": 3650,
-  "effortLevel": "xhigh",
+  "model": "opus",
   "hooks": {
     "PreToolUse": [
       {
@@ -38,8 +37,13 @@
       }
     ]
   },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh"
+  },
   "enabledPlugins": {
     "clangd-lsp@claude-plugins-official": true
   },
+  "effortLevel": "xhigh",
   "skipDangerousModePermissionPrompt": true
 }
