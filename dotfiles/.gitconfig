@@ -27,6 +27,7 @@
 	f = fetch
 	fa = fetch aobolensk
 	fo = fetch origin
+	fu = fetch upstream
 	h = "!git head"
 	head = "!git rev-parse --abbrev-ref HEAD"
 	l = log
