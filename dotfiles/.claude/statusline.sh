@@ -1,22 +1,26 @@
 #!/usr/bin/env bash
 input=$(cat)
 
-cwd=$(echo "$input" | jq -r '.workspace.current_dir // .cwd')
-model=$(echo "$input" | jq -r '.model.display_name // ""')
-ctx_pct=$(echo "$input" | jq -r '.context_window.used_percentage // ""')
-tok_in=$(echo "$input" | jq -r '.context_window.total_input_tokens // ""')
-tok_out=$(echo "$input" | jq -r '.context_window.total_output_tokens // ""')
-cost=$(echo "$input" | jq -r '.cost.total_cost_usd // ""')
+IFS=$'\t' read -r cwd model ctx_pct tok_in tok_out cost < <(
+    jq -r '[
+        .workspace.current_dir // .cwd // "",
+        .model.display_name // "",
+        .context_window.used_percentage // "",
+        .context_window.total_input_tokens // "",
+        .context_window.total_output_tokens // "",
+        .cost.total_cost_usd // ""
+    ] | @tsv' <<<"$input"
+)
 
 git_branch=""
-if [ -n "$cwd" ] && git -C "$cwd" --no-optional-locks rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+if [ -n "$cwd" ]; then
     branch=$(git -C "$cwd" --no-optional-locks symbolic-ref --short HEAD 2>/dev/null \
              || git -C "$cwd" --no-optional-locks rev-parse --short HEAD 2>/dev/null)
     if [ -n "$branch" ]; then
         flags=""
         git -C "$cwd" --no-optional-locks diff --no-ext-diff --quiet 2>/dev/null || flags="${flags}*"
         git -C "$cwd" --no-optional-locks diff --no-ext-diff --cached --quiet 2>/dev/null || flags="${flags}+"
-        [ -n "$(git -C "$cwd" --no-optional-locks ls-files --others --exclude-standard 2>/dev/null)" ] && flags="${flags}?"
+        git -C "$cwd" --no-optional-locks ls-files --others --exclude-standard 2>/dev/null | grep -q . && flags="${flags}?"
         git_branch="(${branch}${flags})"
     fi
 fi
