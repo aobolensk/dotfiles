@@ -65,12 +65,20 @@ def remove_or_backup_existing_path(path, args):
         if os.path.isdir(path) and not os.path.islink(path):
             log(args, f"Error: {path} is a real directory; use --backup to replace it safely.")
             return False
-        os.remove(path)
+        try:
+            os.remove(path)
+        except OSError as e:
+            log(args, f"Error: could not remove {path}: {e}")
+            return False
         return True
 
     backup_path = get_backup_path(path, args)
-    os.makedirs(os.path.dirname(backup_path), exist_ok=True)
-    shutil.move(path, backup_path)
+    try:
+        os.makedirs(os.path.dirname(backup_path), exist_ok=True)
+        shutil.move(path, backup_path)
+    except OSError as e:
+        log(args, f"Error: could not back up {path} -> {backup_path}: {e}")
+        return False
     log(args, f"Backed up: {path} -> {backup_path}")
     return True
 
@@ -108,8 +116,12 @@ def deploy_overlay(overlay_path, args):
                     backup_path = get_backup_path(home_path, args)
                     log(args, f"Back up: {home_path} -> {backup_path}")
             if not args.dry_run:
-                os.makedirs(os.path.dirname(home_path), exist_ok=True)
-                os.symlink(overlay_file_path, home_path)
+                try:
+                    os.makedirs(os.path.dirname(home_path), exist_ok=True)
+                    os.symlink(overlay_file_path, home_path)
+                except OSError as e:
+                    log(args, f"Error: could not symlink {overlay_file_path} -> {home_path}: {e}")
+                    continue
             log(args, f"Added symlink: {overlay_file_path} -> {home_path}")
 
 
