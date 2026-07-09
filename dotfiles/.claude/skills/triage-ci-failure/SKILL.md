@@ -20,17 +20,17 @@ The user may provide:
    - If a PR number/URL was given, use it. Otherwise run `~/.claude/skills/_lib/find-pr.sh` to get the PR number for the current branch.
    - If `find-pr.sh` exits non-zero (no PR found), fall back to the current branch's latest commit.
 
-2. **List recent workflow runs and find failures.**
+2. **List recent workflow runs.**
    ```
    gh run list --branch <branch> --limit 10 --json databaseId,status,conclusion,name,event
    ```
-   Filter to runs with `conclusion: "failure"`. If a specific run ID was given, use that instead.
+   If a specific run ID was given, use that instead.
 
-3. **Get failed jobs from the run.**
+3. **Get failed jobs from each run.** A run overall `conclusion` stays empty until every job finishes, so an `in_progress` run can already contain failed jobs. For every run that isn't `cancelled`, `skipped`, or `success`:
    ```
-   gh run view <run-id> --json jobs
+   gh run view <run-id> --json jobs -q '.jobs[] | {name, status, conclusion}'
    ```
-   Identify which jobs failed (look for `conclusion: "failure"`).
+   Identify which jobs failed (`conclusion: "failure"`).
 
 4. **Fetch logs for each failed job.**
    ```
