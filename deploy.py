@@ -3,6 +3,7 @@
 import argparse
 import datetime
 import os
+import runpy
 import shutil
 import subprocess
 
@@ -14,6 +15,7 @@ OVERLAY_SKIP_ROOT_FILES = {
     ".gitattributes",
     ".gitmodules",
     "README.md",
+    "deploy.py",
 }
 
 dotfiles_dir = os.path.dirname(os.path.abspath(__file__))
@@ -158,6 +160,14 @@ def materialize_codex_skills(overlay_path, args, reset_target):
     return True
 
 
+def run_overlay_deploy_hook(overlay_path, args):
+    hook_path = os.path.join(overlay_path, "deploy.py")
+    if not os.path.isfile(hook_path) or args.dry_run:
+        return
+    log(args, f"Running overlay deploy hook: {hook_path}")
+    runpy.run_path(hook_path, run_name="__hook__")["main"](args)
+
+
 def run_deploy():
     parser = argparse.ArgumentParser(
         description="""
@@ -204,6 +214,7 @@ Dotfiles deployment script.
         deploy_overlay(overlay_path, args)
         if materialize_codex_skills(overlay_path, args, reset_codex_skills):
             reset_codex_skills = False
+        run_overlay_deploy_hook(overlay_path, args)
     if not found_overlay:
         log(args, f"No overlays found (looking for directories containing {OVERLAY_MARKER}).")
     if (
