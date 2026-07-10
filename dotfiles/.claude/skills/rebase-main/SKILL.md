@@ -16,9 +16,11 @@ Replay the current branch's commits on top of the latest main branch.
    remote tracking branch with commits that aren't on HEAD — rebasing will
    require a force-push to update it. Confirm before continuing.
 3. Run the rebase:
+
    ```bash
    git rebase origin/<main-branch>
    ```
+
    Do NOT use `-i` (interactive) — this skill is non-interactive.
 4. Handle conflicts per the shared "Conflict handling" section. When all
    conflicts in the current step are resolved, return here for the

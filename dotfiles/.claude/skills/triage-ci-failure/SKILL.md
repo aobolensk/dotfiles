@@ -10,6 +10,7 @@ Diagnose and fix failed CI jobs on the current branch or a specified PR/commit.
 ## Arguments
 
 The user may provide:
+
 - PR number or URL (optional — defaults to PR for current branch, or latest commit's CI)
 - Specific job name to focus on (optional)
 - Run ID (optional — defaults to most recent failed run)
@@ -17,26 +18,39 @@ The user may provide:
 ## Steps
 
 1. **Identify the CI run to fix.**
-   - If a PR number/URL was given, use it. Otherwise run `~/.claude/skills/_lib/find-pr.sh` to get the PR number for the current branch.
-   - If `find-pr.sh` exits non-zero (no PR found), fall back to the current branch's latest commit.
+   - If a PR number/URL was given, use it. Otherwise run
+     `~/.claude/skills/_lib/find-pr.sh` to get the PR number for the current
+     branch.
+   - If `find-pr.sh` exits non-zero (no PR found), fall back to the current
+     branch's latest commit.
 
 2. **List recent workflow runs.**
-   ```
+
+   ```bash
    gh run list --branch <branch> --limit 10 --json databaseId,status,conclusion,name,event
    ```
+
    If a specific run ID was given, use that instead.
 
-3. **Get failed jobs from each run.** A run overall `conclusion` stays empty until every job finishes, so an `in_progress` run can already contain failed jobs. For every run that isn't `cancelled`, `skipped`, or `success`:
-   ```
+3. **Get failed jobs from each run.** A run overall `conclusion` stays empty
+   until every job finishes, so an `in_progress` run can already contain
+   failed jobs. For every run that isn't `cancelled`, `skipped`, or `success`:
+
+   ```text
    gh run view <run-id> --json jobs -q '.jobs[] | {name, status, conclusion}'
    ```
+
    Identify which jobs failed (`conclusion: "failure"`).
 
 4. **Fetch logs for each failed job.**
-   ```
+
+   ```bash
    gh run view <run-id> --log-failed
    ```
-   If logs are too large, use `--log-failed` which only fetches failed steps. Parse the output to extract error messages, stack traces, and failure context.
+
+   If logs are too large, use `--log-failed` which only fetches failed steps.
+   Parse the output to extract error messages, stack traces, and failure
+   context.
 
 5. **Analyze the failure.** Common categories:
    - **Test failures**: Parse test output, identify failing test names and assertions

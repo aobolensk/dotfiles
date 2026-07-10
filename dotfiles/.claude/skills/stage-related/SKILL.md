@@ -19,12 +19,14 @@ everything else alone.
    - Changes in subprojects/areas the task never touched.
    When unsure whether a file belongs, ask rather than staging it.
 3. Stage only the related paths by name:
+
    ```bash
    git add <path> [<path> ...]
    ```
+
    Never use `git add -A`, `git add .`, or `git add -u` — they sweep in
    unrelated changes.
-4. Run `git status --short` again and report what is now staged (`M `/`A `)
+4. Run `git status --short` again and report what is now staged (`M`/`A`)
    versus what was deliberately left unstaged.
 
 ## Notes

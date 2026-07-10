@@ -24,3 +24,7 @@ repos:
     hooks:
       - id: shellcheck
         files: \.sh$
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.23.0
+    hooks:
+      - id: markdownlint-cli2

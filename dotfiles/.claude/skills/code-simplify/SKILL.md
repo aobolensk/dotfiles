@@ -70,4 +70,6 @@ After changes, report:
 
 ## Default behavior
 
-If the requested simplification is broad, start with local, low-risk edits. Do not perform a large rewrite or repo-wide cleanup unless the user explicitly asks for it.
+If the requested simplification is broad, start with local, low-risk edits.
+Do not perform a large rewrite or repo-wide cleanup unless the user explicitly
+asks for it.

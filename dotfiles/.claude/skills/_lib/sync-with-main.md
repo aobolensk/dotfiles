@@ -76,7 +76,7 @@ before involving the user:
    "Continue after conflict resolution" step to finalize the in-progress
    operation. Do not invent your own finalization command here.
 5. Briefly summarize each auto-resolution to the user (file + what you did
-   + why) so they can sanity-check. Do not claim success silently.
+   - why) so they can sanity-check. Do not claim success silently.
 6. If any files were left unresolved, list them, show the conflicting
    hunks, and ask the user how to proceed (resolve together, or abort with
    the mode-specific `--abort` command from the calling skill).

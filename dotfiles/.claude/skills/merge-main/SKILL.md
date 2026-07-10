@@ -14,9 +14,11 @@ branch via a merge commit.
    `~/.claude/skills/_lib/sync-with-main.md` (detect main branch, verify
    clean working tree, fetch `origin/<main-branch>`).
 2. Run the merge:
+
    ```bash
    git merge --no-edit origin/<main-branch>
    ```
+
    - Use `--no-edit` so the default merge commit message is accepted
      without opening an editor.
    - Do not pass `--no-ff` or `--ff-only` unless the user asks; let git
