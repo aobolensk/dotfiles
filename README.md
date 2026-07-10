@@ -4,7 +4,7 @@
 
 - required
   - git
-  - Python 3.5+
+  - Python 3.8+
 
 ## Supported applications
 
