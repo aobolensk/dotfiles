@@ -77,7 +77,10 @@ def is_tracked(repo_root, file_path):
 
 
 def changed_line_ranges(repo_root, file_path):
-    """Return "start:end" strings (clang-format --lines syntax) for hunks changed since HEAD, or None to format the whole file."""
+    """Return "start:end" strings (clang-format --lines syntax) for hunks changed since HEAD.
+
+    Return None to format the whole file.
+    """
     if not is_tracked(repo_root, file_path):
         return None
     result = subprocess.run(
