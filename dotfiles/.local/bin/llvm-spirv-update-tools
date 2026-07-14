@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Update SPIRV-Tools in all LLVM build*/ dirs that have it enabled
+# and rebuild spirv-{dis,val,as,link}.
+# Usage: llvm-spirv-update-tools [build-dir ...]  (default: build*/)
+
+set -euo pipefail
+
+dirs=("$@")
+[[ ${#dirs[@]} -eq 0 ]] && dirs=(build*/)
+
+for d in "${dirs[@]}"; do
+    d=${d%/}
+    stamp_dir="$d/tools/spirv-tools/SPIRVTools-prefix/src/SPIRVTools-stamp"
+    [[ -f "$d/build.ninja" && -d "$stamp_dir" ]] || { echo "skip: $d" >&2; continue; }
+    ninja -C "$d" SPIRVTools-update
+    rm -f "$stamp_dir/SPIRVTools-build"
+    ninja -C "$d" spirv-dis spirv-val spirv-as spirv-link
+done
