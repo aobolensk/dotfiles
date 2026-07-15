@@ -15,7 +15,7 @@
 	c = commit
 	ca = commit --amend
 	cb = checkout -b
-	cco = "!cco() { git fetch --all --prune && git branch -D $1 2>/dev/null; git checkout $1; }; cco"
+	cco = "!cco() { git fetch --all --prune && git branch -D \"$1\" 2>/dev/null; git checkout \"$1\"; }; cco"
 	cl = clone --recurse-submodules
 	co = checkout
 	cp = cherry-pick
@@ -41,7 +41,7 @@
 	pah = "!git push aobolensk $(git head)"
 	plah = "!git pl aobolensk $(git head)"
 	poh = "!git push origin $(git head)"
-	pr = "!pr() { git fetch origin pull/$1/head:pr/$1 && git checkout pr/$1; }; pr"
+	pr = "!pr() { git fetch origin \"pull/$1/head:pr/$1\" && git checkout \"pr/$1\"; }; pr"
 	puh = "!git push upstream $(git head)"
 	rb = rebase
 	rba = rebase --abort

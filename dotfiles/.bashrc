@@ -100,7 +100,7 @@ export LS_COLORS
 export EDITOR=vim
 
 if [ "$(uname)" == "Darwin" ]; then
-    eval $(/opt/homebrew/bin/brew shellenv)
+    eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 # Local machine-specific settings
