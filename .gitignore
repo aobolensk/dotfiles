@@ -10,6 +10,7 @@ dotfiles/.claude/*
 dotfiles/.codex/*
 !dotfiles/.codex/hooks.json
 !dotfiles/.codex/config.toml
+!dotfiles/.codex/AGENTS.md
 
 dotfiles-*/
 
