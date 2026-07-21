@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 input=$(cat)
 
-IFS=$'\t' read -r cwd model effort ctx_pct tok_in tok_out cost rl_5h rl_7d < <(
+IFS=$'\x1f' read -r cwd model effort ctx_pct tok_in tok_out cost rl_5h rl_7d < <(
     jq -r '[
         .workspace.current_dir // .cwd // "",
         .model.display_name // "",
@@ -12,7 +12,7 @@ IFS=$'\t' read -r cwd model effort ctx_pct tok_in tok_out cost rl_5h rl_7d < <(
         .cost.total_cost_usd // "",
         .rate_limits.five_hour.used_percentage // "",
         .rate_limits.seven_day.used_percentage // ""
-    ] | @tsv' <<<"$input"
+    ] | join("")' <<<"$input"
 )
 
 git_branch=""
