@@ -24,9 +24,7 @@ The user may provide:
    (never truncate with `head`/`tail`):
 
    ```bash
-   gh api repos/{owner}/{repo}/pulls/{number}/comments --paginate   # inline (file/line) review comments
-   gh api repos/{owner}/{repo}/pulls/{number}/reviews --paginate     # review-level summary bodies
-   gh api repos/{owner}/{repo}/issues/{number}/comments --paginate   # general PR conversation comments
+   bash ~/.claude/skills/_lib/fetch-pr-comments.sh <number>
    ```
 
 3. Merge all three sources, sort by timestamp, and filter to
