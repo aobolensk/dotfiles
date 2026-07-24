@@ -22,7 +22,10 @@ than guessing.
 3. If the current branch equals the detected main branch, stop and tell the
    user — there is nothing to merge/rebase into itself.
 4. Check the working tree with `git status --porcelain`.
-5. Fetch the latest main from origin:
+5. Check the current branch isn't behind its remote copy on any remote
+   (`git ls-remote --heads <remote> <current-branch>` vs local `HEAD`);
+   if it is, stop and ask to fast-forward the local branch first.
+6. Fetch the latest main from origin:
    `git fetch origin <main-branch>`.
    If there is no `origin` remote, fall back to `git fetch --all` and warn.
 
