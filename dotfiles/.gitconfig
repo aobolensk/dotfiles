@@ -40,6 +40,7 @@
 	pls = "!git pull --prune --rebase && git submodule update --init --recursive"
 	pah = "!git push aobolensk $(git head)"
 	plah = "!git pl aobolensk $(git head)"
+	ploh = "!git pl origin $(git head)"
 	poh = "!git push origin $(git head)"
 	pr = "!pr() { git fetch origin \"pull/$1/head:pr/$1\" && git checkout \"pr/$1\"; }; pr"
 	puh = "!git push upstream $(git head)"
