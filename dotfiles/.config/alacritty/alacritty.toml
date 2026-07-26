@@ -1,0 +1,52 @@
+[window]
+opacity = 0.95
+
+[colors.primary]
+background = "#232627"
+foreground = "#daeada"
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 12.0
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "Equals"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "DecreaseFontSize"
+key = "Minus"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "ResetFontSize"
+key = "0"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "ResetFontSize"
+key = "Numpad0"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "SpawnNewInstance"
+key = "N"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "ToggleFullscreen"
+key = "F11"
+
+[[mouse.bindings]]
+action = "PasteSelection"
+mouse = "Middle"
+
+[scrolling]
+history = 100000
+
+[selection]
+save_to_clipboard = false
+semantic_escape_chars = """,│`|"' ()[]{}<>«»"""
