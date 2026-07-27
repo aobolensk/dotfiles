@@ -1,7 +1,6 @@
 {
   "cleanupPeriodDays": 3650,
   "model": "sonnet",
-  "effortLevel": "xhigh",
   "hooks": {
     "PreToolUse": [
       {
@@ -45,5 +44,6 @@
   "enabledPlugins": {
     "clangd-lsp@claude-plugins-official": true
   },
+  "effortLevel": "xhigh",
   "skipDangerousModePermissionPrompt": true
 }
