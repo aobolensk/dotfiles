@@ -1,7 +1,7 @@
 # Global instructions
 
 - Never stage, unstage, commit, or post GitHub reviews/comments unless
-  explicitly asked.
+  explicitly asked. Don't offer to post things directly either, only draft and let me decide.
 - Prefer root-cause fixes over workarounds. If only a workaround is
   feasible, label it as such and ask first.
 - Before inventing a pattern, mirror how sibling/neighbouring code already solves it.
