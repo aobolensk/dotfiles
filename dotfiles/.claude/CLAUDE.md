@@ -1,7 +1,5 @@
 # Global instructions
 
-- Delegate to subagents where applicable to keep main context clean; process
-  their results in the main session. Use the same model as the main agent.
 - Never stage, unstage, commit, or post GitHub reviews/comments unless
   explicitly asked.
 - Prefer root-cause fixes over workarounds. If only a workaround is
