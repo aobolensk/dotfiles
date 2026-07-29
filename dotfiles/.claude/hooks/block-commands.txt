@@ -13,11 +13,13 @@ git checkout --
 
 gh pr create
 gh pr comment
+gh pr edit
 gh pr review
 gh pr merge
 gh pr close
 gh issue create
 gh issue comment
+gh issue edit
 gh issue review
 gh issue merge
 gh issue close
