@@ -24,7 +24,8 @@ The user may provide:
    - If `find-pr.sh` exits non-zero (no PR found), fall back to the current
      branch's latest commit.
 
-2. **List recent workflow runs.**
+2. **List recent workflow runs.** If a PR was found, also check
+   `gh pr view <pr> --json statusCheckRollup` for non-GHA checks that `gh run list` won't show — don't skip a failing one.
 
    ```bash
    gh run list --branch <branch> --limit 10 --json databaseId,status,conclusion,name,event
@@ -52,29 +53,31 @@ The user may provide:
    Parse the output to extract error messages, stack traces, and failure
    context.
 
-5. **Analyze the failure.** Common categories:
+4b. **For a failed external check**, fetch its log directly.
+
+1. **Analyze the failure.** Common categories:
    - **Test failures**: Parse test output, identify failing test names and assertions
    - **Build errors**: Compiler/type errors, missing dependencies
    - **Lint/format**: ESLint, Prettier, Clippy, etc.
    - **Timeout**: Job exceeded time limit
    - **Infrastructure**: Network issues, service unavailable, rate limits
 
-6. **Read relevant source files.** Based on the error messages:
+2. **Read relevant source files.** Based on the error messages:
    - For test failures: read the failing test file and the code under test
    - For build errors: read the file(s) mentioned in compiler output
    - For lint errors: read the flagged file(s) and line(s)
 
-7. **Fix the issue.**
+3. **Fix the issue.**
    - Make the necessary code changes to resolve the failure
    - For test failures: fix the code or update the test if the new behavior is correct
    - For lint/format: run the formatter/linter with `--fix` if available, or apply fixes manually
    - Do NOT commit changes automatically
 
-8. **Verify the fix locally** (if possible).
+4. **Verify the fix locally** (if possible).
    - If the failed check can be run locally (tests, lint, type-check, build), run it to confirm the fix works
    - Report whether local verification passed
 
-9. **Summarize.**
+5. **Summarize.**
    - List each failure that was addressed
    - Describe the root cause and the fix applied
    - Note any failures that couldn't be fixed automatically (e.g., flaky tests, infra issues)
