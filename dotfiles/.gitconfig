@@ -57,6 +57,7 @@
 	sta = stash apply
 	stu = stash push --keep-index
 	su = submodule update --init --recursive
+	sw = switch
 	tree = log --graph --pretty=oneline --abbrev-commit
 	uncommit = reset --soft HEAD~1
 	undo = reset --hard
