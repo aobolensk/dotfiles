@@ -1,6 +1,6 @@
 ---
 name: merge-main
-description: Merge the repository's main/default branch into the current branch. Auto-detects the main branch name (main, master, etc.). Stops on conflicts or a dirty working tree.
+description: Merge the repository's main/default branch into the current branch. Auto-detects the main branch name (main, master, etc.). Preserves unrelated working-tree changes and stops on conflicts or overlapping changes.
 ---
 
 # Merge Main Into Current Branch
@@ -11,8 +11,10 @@ branch via a merge commit.
 ## Steps
 
 1. Follow the shared preflight in
-   `~/.claude/skills/_lib/sync-with-main.md` (detect main branch, verify
-   clean working tree, fetch `origin/<main-branch>`).
+   `~/.claude/skills/_lib/sync-with-main.md` (detect main branch, inspect
+   the working tree, fetch `origin/<main-branch>`). A dirty working tree
+   alone is not a reason to stop: preserve it and let `git merge` reject
+   changes that overlap the merge.
 2. Run the merge:
 
    ```bash
