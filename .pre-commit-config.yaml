@@ -23,7 +23,11 @@ repos:
     rev: v0.11.0.1
     hooks:
       - id: shellcheck
-        files: \.sh$
+        exclude: ^dotfiles/\.(bash_aliases|bashrc)$
+      - id: shellcheck
+        name: shellcheck bash startup files
+        files: ^dotfiles/\.(bash_aliases|bashrc)$
+        args: [--shell=bash, "--exclude=SC1090,SC1091"]
   - repo: https://github.com/DavidAnson/markdownlint-cli2
     rev: v0.23.0
     hooks:

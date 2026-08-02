@@ -38,8 +38,8 @@ case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
 esac
 
-GIT_PS1_SHOWDIRTYSTATE=1      # shows * for unstaged, + for staged changes
-GIT_PS1_SHOWUNTRACKEDFILES=1  # shows % when untracked files exist
+export GIT_PS1_SHOWDIRTYSTATE=1      # shows * for unstaged, + for staged changes
+export GIT_PS1_SHOWUNTRACKEDFILES=1  # shows % when untracked files exist
 
 git_exec_path=$(git --exec-path 2>/dev/null)
 git_prefix=${git_exec_path%/*/*}
