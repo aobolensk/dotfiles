@@ -7,77 +7,43 @@ description: Diagnose and fix failed CI jobs by fetching logs, identifying root 
 
 Diagnose and fix failed CI jobs on the current branch or a specified PR/commit.
 
-## Arguments
+The user may provide a PR number or URL, job name, or run ID. Otherwise use the
+PR for the current branch and its most recent failed run, or CI for the latest
+commit when the branch has no PR.
 
-The user may provide:
+## Workflow
 
-- PR number or URL (optional — defaults to PR for current branch, or latest commit's CI)
-- Specific job name to focus on (optional)
-- Run ID (optional — defaults to most recent failed run)
+1. **Resolve the target.** Use the given PR or run ID. Otherwise run
+   `~/.claude/skills/_lib/find-pr.sh`; if it finds no PR, use the current branch
+   and latest commit.
 
-## Steps
+2. **Find every failing check.** Unless a run ID was given, use `gh run list --branch <branch> --limit 10 --json databaseId,status,conclusion,name,event`. For a PR, also run
+   `gh pr view <pr> --json statusCheckRollup` so external checks are not missed.
+   Honor a requested job name when narrowing the results.
 
-1. **Identify the CI run to fix.**
-   - If a PR number/URL was given, use it. Otherwise run
-     `~/.claude/skills/_lib/find-pr.sh` to get the PR number for the current
-     branch.
-   - If `find-pr.sh` exits non-zero (no PR found), fall back to the current
-     branch's latest commit.
+3. **Inspect jobs in each relevant Actions run.** Check every run except those
+   concluded as `cancelled`, `skipped`, or `success`; an in-progress run can
+   already contain failures. Run `gh run view <run-id> --json jobs -q '.jobs[] | {name, status, conclusion}'`.
 
-2. **List recent workflow runs.** If a PR was found, also check
-   `gh pr view <pr> --json statusCheckRollup` for non-GHA checks that `gh run list` won't show — don't skip a failing one.
+4. **Fetch failed Actions logs once per run.** Run `gh run view <run-id> --log-failed`, then extract the error, stack trace, and surrounding context.
 
-   ```bash
-   gh run list --branch <branch> --limit 10 --json databaseId,status,conclusion,name,event
-   ```
+5. **Fetch failed external-check details.** Read the check `detailsUrl` or
+   `targetUrl` from `statusCheckRollup`, then inspect that provider page or its
+   authenticated API/CLI. If access is unavailable, report the check and URL as
+   a blocker instead of ignoring it.
 
-   If a specific run ID was given, use that instead.
+6. **Diagnose the root cause.** Classify the failure as test, build, lint,
+   timeout, or infrastructure, then read the named tests, source files, and
+   configuration. Distinguish product defects from stale expectations, flaky
+   tests, and provider failures.
 
-3. **Get failed jobs from each run.** A run overall `conclusion` stays empty
-   until every job finishes, so an `in_progress` run can already contain
-   failed jobs. For every run that isn't `cancelled`, `skipped`, or `success`:
+7. **Apply the smallest root-cause fix.** Update a test only when the intended
+   behavior changed. Use a formatter or linter fix mode when appropriate. Do not
+   commit changes.
 
-   ```text
-   gh run view <run-id> --json jobs -q '.jobs[] | {name, status, conclusion}'
-   ```
+8. **Verify locally when possible.** Run the focused failing command first,
+   then any proportionate broader test, lint, type-check, or build command.
 
-   Identify which jobs failed (`conclusion: "failure"`).
-
-4. **Fetch logs for each failed job.**
-
-   ```bash
-   gh run view <run-id> --log-failed
-   ```
-
-   If logs are too large, use `--log-failed` which only fetches failed steps.
-   Parse the output to extract error messages, stack traces, and failure
-   context.
-
-4b. **For a failed external check**, fetch its log directly.
-
-1. **Analyze the failure.** Common categories:
-   - **Test failures**: Parse test output, identify failing test names and assertions
-   - **Build errors**: Compiler/type errors, missing dependencies
-   - **Lint/format**: ESLint, Prettier, Clippy, etc.
-   - **Timeout**: Job exceeded time limit
-   - **Infrastructure**: Network issues, service unavailable, rate limits
-
-2. **Read relevant source files.** Based on the error messages:
-   - For test failures: read the failing test file and the code under test
-   - For build errors: read the file(s) mentioned in compiler output
-   - For lint errors: read the flagged file(s) and line(s)
-
-3. **Fix the issue.**
-   - Make the necessary code changes to resolve the failure
-   - For test failures: fix the code or update the test if the new behavior is correct
-   - For lint/format: run the formatter/linter with `--fix` if available, or apply fixes manually
-   - Do NOT commit changes automatically
-
-4. **Verify the fix locally** (if possible).
-   - If the failed check can be run locally (tests, lint, type-check, build), run it to confirm the fix works
-   - Report whether local verification passed
-
-5. **Summarize.**
-   - List each failure that was addressed
-   - Describe the root cause and the fix applied
-   - Note any failures that couldn't be fixed automatically (e.g., flaky tests, infra issues)
+9. **Report the result.** Name each addressed failure, its root cause and fix,
+   the local verification result, and any remaining flaky, infrastructure, or
+   inaccessible external checks.
