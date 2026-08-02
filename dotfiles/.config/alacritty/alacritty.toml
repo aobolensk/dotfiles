@@ -32,7 +32,7 @@ key = "Numpad0"
 mods = "Control"
 
 [[keyboard.bindings]]
-action = "SpawnNewInstance"
+action = "CreateNewWindow"
 key = "N"
 mods = "Control|Shift"
 
