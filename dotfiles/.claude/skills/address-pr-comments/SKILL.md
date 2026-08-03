@@ -27,10 +27,11 @@ The user may provide:
    bash ~/.claude/skills/_lib/fetch-pr-comments.sh <number>
    ```
 
-3. Merge all three sources, sort by timestamp, and filter to
-   unresolved/pending comments. If a reviewer filter was given, narrow to that
-   reviewer. Show the user a summary: reviewer, file, line (or "PR-level" for
-   review-level/issue comments), and comment snippet for each.
+3. Sort by `created_at` and drop `is_resolved: true` comments (review/issue
+   comments have `is_resolved: null` and count as pending). If a reviewer
+   filter was given, narrow to that reviewer. Show the user a summary:
+   reviewer, file, line (or "PR-level" when `path` is null), and comment
+   snippet for each.
 4. Address all unresolved comments by default. If the user specified a filter (reviewer, topic), address only matching comments.
 5. For each comment:
    - Read the relevant file and surrounding context.
