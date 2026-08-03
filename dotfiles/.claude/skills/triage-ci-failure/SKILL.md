@@ -17,15 +17,18 @@ commit when the branch has no PR.
    `~/.claude/skills/_lib/find-pr.sh`; if it finds no PR, use the current branch
    and latest commit.
 
-2. **Find every failing check.** Unless a run ID was given, use `gh run list --branch <branch> --limit 10 --json databaseId,status,conclusion,name,event`. For a PR, also run
+2. **Find every failing check.** Unless a run ID was given, use
+   `gh run list --branch <branch> --limit 10 --json databaseId,status,conclusion,name,event`. For a PR, also run
    `gh pr view <pr> --json statusCheckRollup` so external checks are not missed.
    Honor a requested job name when narrowing the results.
 
 3. **Inspect jobs in each relevant Actions run.** Check every run except those
    concluded as `cancelled`, `skipped`, or `success`; an in-progress run can
-   already contain failures. Run `gh run view <run-id> --json jobs -q '.jobs[] | {name, status, conclusion}'`.
+   already contain failures. Run
+   `gh run view <run-id> --json jobs -q '.jobs[] | {name, status, conclusion}'`.
 
-4. **Fetch failed Actions logs once per run.** Run `gh run view <run-id> --log-failed`, then extract the error, stack trace, and surrounding context.
+4. **Fetch failed Actions logs once per run.** Run `gh run view <run-id> --log-failed`, then extract the error,
+   stack trace, and surrounding context.
 
 5. **Fetch failed external-check details.** Read the check `detailsUrl` or
    `targetUrl` from `statusCheckRollup`, then inspect that provider page or its
