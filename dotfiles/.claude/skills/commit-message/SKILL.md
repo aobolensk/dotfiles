@@ -15,11 +15,16 @@ contents change between invocations (commits land, stages get extended or
 reset, branches switch). Never reuse a message you generated earlier in the
 session — re-read the diff first, even on back-to-back invocations.
 
-1. Run `git log --oneline -20` to learn the repo's commit message style
-   (format, casing, prefixes, conventional commits, etc.).
+1. Run `git log --oneline -20` to learn the repo's general commit message
+   style (format, casing, conventional commits, etc.).
 2. Run `git diff --cached --stat` to check for staged changes. If nothing is staged, inform the user and stop.
 3. Run `git diff --cached` to read the staged changes.
-4. Compose a commit message that:
+4. If the repo uses per-area tags/prefixes (e.g. `[COMPONENT]`, `[Area]`),
+   verify the tag against the touched paths' own history, not the generic
+   log from step 1 or a guess from the file path: run
+   `git log --oneline -- <changed paths>` and use the tag neighbouring
+   commits for those exact paths already use.
+5. Compose a commit message that:
    - Follows the style and conventions observed in the repo's git log (e.g. conventional commits, imperative mood, prefixes)
    - Has a concise subject line
    - Has NO body by default. Only add a body when the diff has a non-obvious
@@ -29,4 +34,4 @@ session — re-read the diff first, even on back-to-back invocations.
    - Mirrors the body-length norm in `git log` — if recent commits in this repo are subject-only, yours must be too.
    - Does NOT include any Co-Authored-By lines
    - Is derived from the staged diff only — do NOT infer intent, scope, or prefix from the current branch name
-5. On success, output ONLY the commit message in a fenced code block — no preamble, explanation, or trailing commentary.
+6. On success, output ONLY the commit message in a fenced code block — no preamble, explanation, or trailing commentary.
