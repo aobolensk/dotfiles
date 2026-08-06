@@ -26,6 +26,7 @@ if [ -n "$ctx_size" ]; then
 fi
 
 git_branch=""
+diff_stat=""
 if [ -n "$cwd" ]; then
     branch=$(git -C "$cwd" --no-optional-locks symbolic-ref --short HEAD 2>/dev/null \
              || git -C "$cwd" --no-optional-locks rev-parse --short HEAD 2>/dev/null)
@@ -35,6 +36,12 @@ if [ -n "$cwd" ]; then
         git -C "$cwd" --no-optional-locks diff --no-ext-diff --cached --quiet 2>/dev/null || flags="${flags}+"
         git -C "$cwd" --no-optional-locks ls-files --others --exclude-standard 2>/dev/null | grep -q . && flags="${flags}?"
         git_branch="(${branch}${flags})"
+
+        read -r added removed < <(
+            git -C "$cwd" --no-optional-locks diff --no-ext-diff --numstat HEAD 2>/dev/null \
+                | awk '{a+=$1; r+=$2} END {printf "%d %d", a+0, r+0}'
+        )
+        [ "$added" -gt 0 ] || [ "$removed" -gt 0 ] && diff_stat="+${added}/-${removed}"
     fi
 fi
 
@@ -47,5 +54,6 @@ parts="${parts} ${model}"
 [ -n "$cost" ] && parts="${parts} \$$(printf '%.3f' "$cost")"
 [ -n "$rl_5h" ] && parts="${parts} 5h:${rl_5h}%"
 [ -n "$rl_7d" ] && parts="${parts} 7d:${rl_7d}%"
+[ -n "$diff_stat" ] && parts="${parts} ${diff_stat}"
 
 printf '%s' "$parts"
