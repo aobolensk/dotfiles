@@ -1,6 +1,17 @@
 #!/usr/bin/env bash
 input=$(cat)
 
+c_reset=$'\033[0m'
+c_branch=$'\033[35m'
+c_model=$'\033[36m'
+c_effort=$'\033[90m'
+c_ctx=$'\033[33m'
+c_tok=$'\033[34m'
+c_cost=$'\033[32m'
+c_rl=$'\033[31m'
+c_add=$'\033[32m'
+c_del=$'\033[31m'
+
 IFS=$'\x1f' read -r cwd model effort ctx_pct ctx_size tok_in tok_out cost rl_5h rl_7d < <(
     jq -r '[
         .workspace.current_dir // .cwd // "",
@@ -41,19 +52,19 @@ if [ -n "$cwd" ]; then
             git -C "$cwd" --no-optional-locks diff --no-ext-diff --numstat HEAD 2>/dev/null \
                 | awk '{a+=$1; r+=$2} END {printf "%d %d", a+0, r+0}'
         )
-        [ "$added" -gt 0 ] || [ "$removed" -gt 0 ] && diff_stat="+${added}/-${removed}"
+        [ "$added" -gt 0 ] || [ "$removed" -gt 0 ] && diff_stat="${c_add}+${added}${c_reset}/${c_del}-${removed}${c_reset}"
     fi
 fi
 
 parts=""
-[ -n "$git_branch" ] && parts="${git_branch}"
-parts="${parts} ${model}"
-[ -n "$effort" ] && parts="${parts}:${effort}"
-[ -n "$ctx_pct" ] && parts="${parts} ctx:${ctx_pct}%$([ -n "$ctx_size_fmt" ] && echo "/${ctx_size_fmt}")"
-[ -n "$tok_in" ] && parts="${parts} in:${tok_in}/out:${tok_out}"
-[ -n "$cost" ] && parts="${parts} \$$(printf '%.3f' "$cost")"
-[ -n "$rl_5h" ] && parts="${parts} 5h:${rl_5h}%"
-[ -n "$rl_7d" ] && parts="${parts} 7d:${rl_7d}%"
+[ -n "$git_branch" ] && parts="${c_branch}${git_branch}${c_reset}"
+parts="${parts} ${c_model}${model}${c_reset}"
+[ -n "$effort" ] && parts="${parts}${c_effort}:${effort}${c_reset}"
+[ -n "$ctx_pct" ] && parts="${parts} ${c_ctx}ctx:${ctx_pct}%$([ -n "$ctx_size_fmt" ] && echo "/${ctx_size_fmt}")${c_reset}"
+[ -n "$tok_in" ] && parts="${parts} ${c_tok}in:${tok_in}/out:${tok_out}${c_reset}"
+[ -n "$cost" ] && parts="${parts} ${c_cost}\$$(printf '%.3f' "$cost")${c_reset}"
+[ -n "$rl_5h" ] && parts="${parts} ${c_rl}5h:${rl_5h}%${c_reset}"
+[ -n "$rl_7d" ] && parts="${parts} ${c_rl}7d:${rl_7d}%${c_reset}"
 [ -n "$diff_stat" ] && parts="${parts} ${diff_stat}"
 
 printf '%s' "$parts"
