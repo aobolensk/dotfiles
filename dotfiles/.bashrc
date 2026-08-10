@@ -103,5 +103,8 @@ if [ "$(uname)" == "Darwin" ]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
+# direnv: per-directory env vars from .envrc
+command -v direnv >/dev/null 2>&1 && eval "$(direnv hook bash)"
+
 # Local machine-specific settings
 [ -f ~/.bashrc_local ] && . ~/.bashrc_local
