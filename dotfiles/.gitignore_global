@@ -1,5 +1,8 @@
 .cache
 
+# direnv
+.envrc
+
 # AI tools artifacts
 AGENTS.md
 .antigravitycli/
