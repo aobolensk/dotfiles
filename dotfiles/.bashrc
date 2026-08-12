@@ -96,6 +96,7 @@ export LS_COLORS
 
 [ -d "$HOME/.local/bin" ] && export PATH=$HOME/.local/bin:$PATH
 [ -d "/usr/local/go/bin" ] && export PATH=$PATH:/usr/local/go/bin
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
 export EDITOR=vim
 
