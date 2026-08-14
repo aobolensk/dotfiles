@@ -50,6 +50,7 @@
   "enabledPlugins": {
     "clangd-lsp@claude-plugins-official": true
   },
+  "outputStyle": "concise",
   "effortLevel": "xhigh",
   "skipDangerousModePermissionPrompt": true
 }

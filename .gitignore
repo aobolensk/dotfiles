@@ -5,6 +5,7 @@ dotfiles/.claude/*
 !dotfiles/.claude/CLAUDE.md
 !dotfiles/.claude/settings.json
 !dotfiles/.claude/statusline.sh
+!dotfiles/.claude/output-styles
 
 !dotfiles/.codex/
 dotfiles/.codex/*
