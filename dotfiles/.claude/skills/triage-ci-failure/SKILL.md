@@ -1,6 +1,7 @@
 ---
 name: triage-ci-failure
 description: Diagnose and fix failed CI jobs by fetching logs, identifying root causes, and applying fixes.
+context: fork
 ---
 
 # Triage CI Failure
