@@ -18,6 +18,9 @@ everything else alone.
    - Untracked scratch/report files not produced by the task.
    - Changes in subprojects/areas the task never touched.
    When unsure whether a file belongs, ask rather than staging it.
+
+   If a related file also carries unrelated hunks (pre-existing edits mixed
+   into the same file), relatedness applies per hunk, not to the whole file.
 3. Stage only the related paths by name:
 
    ```bash
@@ -26,6 +29,16 @@ everything else alone.
 
    Never use `git add -A`, `git add .`, or `git add -u` — they sweep in
    unrelated changes.
+
+   For a file with unrelated hunks mixed in, stage hunk-by-hunk instead:
+
+   ```bash
+   git add -p <path>
+   ```
+
+   Answer `y`/`n` per hunk, `s` to split a hunk that still mixes related and
+   unrelated lines. Verify with `git diff --cached <path>` that only the
+   related lines were staged.
 4. Run `git status --short` again and report what is now staged (`M`/`A`)
    versus what was deliberately left unstaged.
 
