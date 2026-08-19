@@ -6,6 +6,8 @@
 
 sudo
 
+find /
+
 git commit
 git push
 git reset
