@@ -26,11 +26,17 @@ session — re-read the diff first, even on back-to-back invocations.
    commits for those exact paths already use.
 5. Compose a commit message that:
    - Follows the style and conventions observed in the repo's git log (e.g. conventional commits, imperative mood, prefixes)
-   - Has a concise subject line
+   - Has a short subject line, ideally under 72 chars including any prefix.
+     Cut filler like "in order to", "this change", "properly", "correctly".
    - Has NO body by default. Only add a body when the diff has a non-obvious
      *why* that the subject cannot convey (e.g. a workaround, a constraint, a
-     revert reason). If you add one, keep it to 1–3 short lines and explain
+     revert reason). If you add one, keep it to 1–2 short lines and explain
      *why*, not *what* — never restate the diff or list changed files/functions.
+   - Uses plain, direct wording. Prefer short everyday words over precise but
+     heavy ones, and one clause over two joined by "and", "which", or "so
+     that". Drop any word, clause, or line that does not change what the
+     reader understands — given two phrasings that say the same thing, take
+     the shorter one.
    - Mirrors the body-length norm in `git log` — if recent commits in this repo are subject-only, yours must be too.
    - Does NOT include any Co-Authored-By lines
    - Is derived from the staged diff only — do NOT infer intent, scope, or prefix from the current branch name
