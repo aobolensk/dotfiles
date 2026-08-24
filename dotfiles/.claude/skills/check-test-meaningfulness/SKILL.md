@@ -15,10 +15,12 @@ new test actually pin down the behavior the patch introduced or fixed?
 2. **Fail-without / pass-with** (the decisive check): confirm each new test
    fails on the pre-patch code and passes on the patched code.
    - Run the test now → it must pass.
-   - Temporarily revert ONLY the source change (e.g. `git stash` the non-test
-     files, or comment out the fix) and run the test again → it must fail, and
-     fail for the *right reason* (the assertion under test, not a setup/import
-     error). Restore the source immediately after.
+   - Temporarily revert ONLY the source change and run the test again → it
+     must fail, and fail for the *right reason* (the assertion under test, not
+     a setup/import error). Restore immediately after. Use
+     `~/.claude/skills/_lib/revert-restore-diff.sh revert <source files>` then
+     `restore <diff-file>` (not `git stash`, which drops staged status).
+     Comment out the fix instead if it isn't a clean diff.
    - If it passes without the patch, the test does not exercise the change —
      flag it as not meaningful.
 3. Apply the remaining criteria to each test:
