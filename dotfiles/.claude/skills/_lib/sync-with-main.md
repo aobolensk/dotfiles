@@ -3,32 +3,22 @@
 These steps are shared between the `merge-main` and `rebase-main` skills.
 The caller picks the integration mode.
 
-## Detect the main branch
-
-Run the shared detection script (resolved relative to this file):
-
-```bash
-bash ~/.claude/skills/_lib/detect-main-branch.sh
-```
-
-It prints the branch name (e.g. `main`, `master`) and exits non-zero if it
-can't determine one. If it fails, ask the user which branch to use rather
-than guessing.
-
 ## Preflight
 
 1. Confirm we're inside a git repo: `git rev-parse --is-inside-work-tree`.
 2. Get the current branch: `git rev-parse --abbrev-ref HEAD`.
-3. If the current branch equals the detected main branch, stop and tell the
-   user — there is nothing to merge/rebase into itself.
+3. Detect the main branch: `bash ~/.claude/skills/_lib/detect-main-branch.sh`.
+   If it can't determine one, ask the user which branch to use rather than
+   guessing. If the current branch equals it, stop and tell the user —
+   there is nothing to merge/rebase into itself.
 4. Check the working tree with `git status --porcelain`.
 5. Check the current branch isn't behind its remote copy on any remote
    (`git ls-remote --heads <remote> <current-branch>` vs local `HEAD`);
    if it is, fast-forward the local branch first with
    `git merge --ff-only <remote>/<current-branch>`.
-6. Fetch the latest main from origin:
-   `git fetch origin <main-branch>`.
-   If there is no `origin` remote, fall back to `git fetch --all` and warn.
+6. Fetch the latest main from origin (the branch detected in step 3):
+   `git fetch origin <main-branch>`. If there is no `origin` remote, fall
+   back to `git fetch --all` and warn.
 
 ## Integrate
 
