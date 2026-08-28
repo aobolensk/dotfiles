@@ -37,7 +37,9 @@ The user may provide:
    - Understand what the reviewer is asking for.
    - Make the requested change. If the comment is ambiguous, ask the user before changing code.
    - Do not commit, stage or unstage any changes.
-   - If the reviewer asks a question. Provide a reply, but do not post it automatically.
+   - If the reviewer asks a question, provide a reply, but do not post it
+     automatically. Follow Strunk & White: active voice, definite and
+     concrete wording, omit needless words.
 5. After all changes are made, build and test the project to confirm the
    changes are correct. If the build or tests fail, fix the issues before
    proceeding.

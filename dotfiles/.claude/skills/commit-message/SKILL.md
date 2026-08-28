@@ -37,6 +37,8 @@ session — re-read the diff first, even on back-to-back invocations.
      that". Drop any word, clause, or line that does not change what the
      reader understands — given two phrasings that say the same thing, take
      the shorter one.
+   - Follows Strunk & White's *Elements of Style*: active voice, definite and
+     concrete wording, omit needless words.
    - Mirrors the body-length norm in `git log` — if recent commits in this repo are subject-only, yours must be too.
    - Does NOT include any Co-Authored-By lines
    - Is derived from the staged diff only — do NOT infer intent, scope, or prefix from the current branch name
