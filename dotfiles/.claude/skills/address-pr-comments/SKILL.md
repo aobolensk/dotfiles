@@ -39,7 +39,8 @@ The user may provide:
    - Do not commit, stage or unstage any changes.
    - If the reviewer asks a question, provide a reply, but do not post it
      automatically. Follow Strunk & White: active voice, definite and
-     concrete wording, omit needless words.
+     concrete wording, omit needless words. Use no possessive 's, no
+     em-dashes, no non-ASCII symbols, and no semicolons.
 5. After all changes are made, build and test the project to confirm the
    changes are correct. If the build or tests fail, fix the issues before
    proceeding.
