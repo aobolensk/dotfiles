@@ -37,6 +37,7 @@
 	p = push
 	pl = pull --prune --rebase
 	pla = pull --prune --all
+	plas = pull --prune --rebase --autostash
 	pls = "!git pull --prune --rebase && git submodule update --init --recursive"
 	pah = "!git push aobolensk $(git head)"
 	plah = "!git pl aobolensk $(git head)"
