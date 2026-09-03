@@ -17,20 +17,10 @@ The user may provide:
 
 ## Steps
 
-1. Fetch comments from all three endpoints, parsing the full JSON output
-   (never truncate with `head`/`tail`). If a PR was given, pass it; otherwise
-   omit the argument — `fetch-pr-comments.sh` resolves the current branch's
-   PR itself via `find-pr.sh`. If that fails, ask the user to pick a PR.
-
-   ```bash
-   bash ~/.claude/skills/_lib/fetch-pr-comments.sh <number>
-   ```
-
-2. Sort by `created_at` and drop `is_resolved: true` comments (review/issue
-   comments have `is_resolved: null` and count as pending). If a reviewer
-   filter was given, narrow to that reviewer. Show the user a summary:
-   reviewer, file, line (or "PR-level" when `path` is null), and comment
-   snippet for each.
+1. Collect the unresolved comments per
+   `~/.claude/skills/_lib/unresolved-pr-comments.md`.
+2. Show the user a summary: reviewer, file, line (or "PR-level" when `path` is
+   null), and comment snippet for each.
 3. Address all unresolved comments by default. If the user specified a filter (reviewer, topic), address only matching comments.
 4. For each comment:
    - Read the relevant file and surrounding context.
