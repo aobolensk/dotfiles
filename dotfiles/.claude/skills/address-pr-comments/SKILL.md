@@ -18,7 +18,10 @@ The user may provide:
 ## Steps
 
 1. Collect the unresolved comments per
-   `~/.claude/skills/_lib/unresolved-pr-comments.md`.
+   `~/.claude/skills/_lib/unresolved-pr-comments.md`. Do not resolve the PR
+   yourself with ad hoc `gh pr view`/`gh pr list` calls first — call
+   `fetch-pr-comments.sh` (which runs `find-pr.sh`'s multi-strategy lookup)
+   directly, and only ask the user if that script itself fails.
 2. Show the user a summary: reviewer, file, line (or "PR-level" when `path` is
    null), and comment snippet for each.
 3. Address all unresolved comments by default. If the user specified a filter (reviewer, topic), address only matching comments.
