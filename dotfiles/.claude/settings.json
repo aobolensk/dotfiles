@@ -6,6 +6,10 @@
     "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
     "CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT": "1"
   },
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
   "model": "sonnet",
   "hooks": {
     "PreToolUse": [
@@ -52,5 +56,6 @@
   },
   "outputStyle": "concise",
   "effortLevel": "xhigh",
+  "tui": "default",
   "skipDangerousModePermissionPrompt": true
 }
