@@ -30,8 +30,9 @@ session — re-read the diff first, even on back-to-back invocations.
      Cut filler like "in order to", "this change", "properly", "correctly".
    - Has NO body by default. Only add a body when the diff has a non-obvious
      *why* that the subject cannot convey (e.g. a workaround, a constraint, a
-     revert reason). If you add one, keep it to 1–2 short lines and explain
-     *why*, not *what* — never restate the diff or list changed files/functions.
+     revert reason). If you add one, keep it to 1–2 short lines, imperative
+     like the subject, and explain *why*, not *what* — never restate the diff
+     or list changed files/functions.
    - Uses plain, direct wording. Prefer short everyday words over precise but
      heavy ones, and one clause over two joined by "and", "which", or "so
      that". Drop any word, clause, or line that does not change what the
