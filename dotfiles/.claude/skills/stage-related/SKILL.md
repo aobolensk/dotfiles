@@ -1,48 +1,54 @@
 ---
 name: stage-related
-description: Stage only the working-tree changes related to the current task, leaving unrelated or pre-existing changes unstaged. Does not commit.
+description: Stage only the working-tree changes related to the current task, hunk by hunk, leaving unrelated or pre-existing changes unstaged. Does not commit.
 ---
 
 # Stage Related Changes
 
-Selectively `git add` the files that belong to the work just done, and leave
-everything else alone.
+Stage the hunks that belong to the work just done, and leave everything else
+alone. Relatedness is decided per hunk, never per file.
 
 ## Steps
 
 1. Run `git status --short` to list all changed and untracked files.
-2. Decide which paths are part of the current task. A file is *related* if it
-   was created or edited as part of this task's change set. Treat as
-   *unrelated* (do NOT stage):
-   - Files that were already modified before the task started.
-   - Untracked scratch/report files not produced by the task.
-   - Changes in subprojects/areas the task never touched.
-   When unsure whether a file belongs, ask rather than staging it.
-
-   If a related file also carries unrelated hunks (pre-existing edits mixed
-   into the same file), relatedness applies per hunk, not to the whole file.
-3. Stage only the related paths by name:
+2. Run `git diff -U1 <path> | grep -n "^@@"` on each modified file to enumerate
+   its hunks, then read the hunks themselves.
+3. Classify every hunk as related or unrelated. A hunk is *related* if the
+   current task produced it. Treat as *unrelated*:
+   - Hunks that were already in the working tree before the task started.
+   - Hunks belonging to an earlier, separate piece of work in the same session.
+   - Untracked scratch or report files the task did not produce.
+   - Changes in subprojects or areas the task never touched.
+4. Report the classification as a table before staging anything: hunk header,
+   one-line content summary, and the verdict. Call out any hunk that mixes
+   related and unrelated lines.
+5. If a related hunk depends on an unrelated one (it references a symbol or
+   behaviour the unrelated hunk introduces), say so plainly and ask whether to
+   stage the related hunks alone, producing an index that does not build, or to
+   pull in the prerequisite. Do not decide this silently.
+6. Stage the selection. `git add -p` is interactive and unavailable here, so
+   construct the intended index content directly:
 
    ```bash
-   git add <path> [<path> ...]
+   git show HEAD:<path> > /tmp/staged.tmp
+   # apply only the related hunks to /tmp/staged.tmp, e.g. with a python
+   # script of exact string replacements, asserting each anchor matches once
+   blob=$(git hash-object -w /tmp/staged.tmp)
+   git update-index --cacheinfo 100644,$blob,<path>
    ```
 
-   Never use `git add -A`, `git add .`, or `git add -u` — they sweep in
+   This leaves the working tree untouched and shows the file as `MM`.
+
+   Use plain `git add <path>` only when every hunk in that file is related.
+   Never use `git add -A`, `git add .`, or `git add -u`, which sweep in
    unrelated changes.
-
-   For a file with unrelated hunks mixed in, stage hunk-by-hunk instead:
-
-   ```bash
-   git add -p <path>
-   ```
-
-   Answer `y`/`n` per hunk, `s` to split a hunk that still mixes related and
-   unrelated lines. Verify with `git diff --cached <path>` that only the
-   related lines were staged.
-4. Run `git status --short` again and report what is now staged (`M`/`A`)
-   versus what was deliberately left unstaged.
+7. Verify with `git diff --cached <path>` that the staged diff contains the
+   related hunks and nothing else.
+8. Run `git status --short` again and report what is now staged (`M`/`A`/`MM`)
+   versus what was deliberately left unstaged, listing the excluded hunks by
+   name. Repeat any caveat from step 5, such as the staged tree not building.
 
 ## Notes
 
 - Do NOT commit. Staging only.
-- Skip files that may hold secrets (`.env`, credentials); flag them instead.
+- Skip files that may hold secrets (`.env`, credentials), and flag them instead.
