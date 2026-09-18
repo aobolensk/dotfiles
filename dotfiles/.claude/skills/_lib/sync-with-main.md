@@ -12,10 +12,11 @@ The caller picks the integration mode.
    guessing. If the current branch equals it, stop and tell the user —
    there is nothing to merge/rebase into itself.
 4. Check the working tree with `git status --porcelain`.
-5. Check the current branch isn't behind its remote copy on any remote
-   (`git ls-remote --heads <remote> <current-branch>` vs local `HEAD`);
-   if it is, fast-forward the local branch first with
-   `git merge --ff-only <remote>/<current-branch>`.
+5. Fetch the current branch from its remote (`git fetch <remote>
+   <current-branch>`) and compare with `git rev-list --left-right --count
+   <remote>/<current-branch>...HEAD`. If behind only, fast-forward with
+   `git merge --ff-only <remote>/<current-branch>`. If both counts are
+   nonzero (diverged), stop and tell the user rather than guessing.
 6. Fetch the latest main from origin (the branch detected in step 3):
    `git fetch origin <main-branch>`. If there is no `origin` remote, fall
    back to `git fetch --all` and warn.
