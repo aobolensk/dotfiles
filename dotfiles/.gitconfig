@@ -20,7 +20,7 @@
 	co = checkout
 	cp = cherry-pick
 	cpa = cherry-pick --abort
-	cpc = cherry-pick --continue
+	cpc = -c core.editor=true cherry-pick --continue
 	cps = cherry-pick --skip
 	d = diff
 	ds = diff --staged
@@ -31,9 +31,9 @@
 	h = "!git head"
 	head = "!git rev-parse --abbrev-ref HEAD"
 	l = log
-	mg = merge
+	mg = merge --no-edit
 	mga = merge --abort
-	mgc = merge --continue
+	mgc = -c core.editor=true merge --continue
 	p = push
 	pl = pull --prune --rebase
 	pla = pull --prune --all
@@ -47,11 +47,11 @@
 	puh = "!git push upstream $(git head)"
 	rb = rebase
 	rba = rebase --abort
-	rbc = rebase --continue
+	rbc = -c core.editor=true rebase --continue
 	rbs = rebase --skip
-	rv = revert
+	rv = revert --no-edit
 	rva = revert --abort
-	rvc = revert --continue
+	rvc = -c core.editor=true revert --continue
 	rvs = revert --skip
 	s = status
 	st = stash
