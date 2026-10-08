@@ -1,74 +1,51 @@
 ---
 name: new-branch
-description: "Create and check out a new branch from the repository's detected default branch, naming it from the pending changes and neighboring branch history. Preserves staged and unstaged changes across checkout. Use for 'make a branch for this', 'name a branch for these changes', or 'create a branch off main'. Creates and checks out the branch; does not commit or push."
+description: "Create and check out a new branch from the default branch, named from pending changes and branch history, keeping staged and unstaged changes. Use for 'make a branch for this' or 'create a branch off main'. Does not commit or push."
 ---
 
 # New Branch
 
-Create a branch from the repository's default branch, preserve pending changes,
-and check out the new branch without committing or pushing.
+Batch commands: aim for three tool calls (recon, create, report).
 
-## Steps
-
-1. **Detect and fetch the default branch.** Use the shared helper rather than
-   assuming `main`, `master`, or another name.
+1. **Recon.** Detect and fetch the default branch, then list the changes and
+   neighboring history. Prefer staged changes, else the working-tree diff plus
+   untracked files, and say which source was used. Use `--stat`. Read a full
+   diff only if the purpose is unclear. For a clean tree, name from the
+   conversation or ask.
 
    ```bash
    main_branch=$(bash ~/.claude/skills/_lib/detect-main-branch.sh)
-   git fetch origin "$main_branch"
+   git fetch -q origin "$main_branch"
+   echo "main=$main_branch"
+   git diff --cached --stat; echo "--- unstaged"; git diff --stat
+   echo "--- untracked"; git ls-files --others --exclude-standard
+   echo "--- history"; git log --oneline -8 -- <changed paths>
+   echo "--- branches"; git branch -a --list '*<area>*'
    ```
 
-2. **Determine the change set to name.** Prefer staged changes. If nothing is
-   staged, use the tracked working-tree diff plus non-ignored untracked files,
-   and tell the user which source was used.
+   If the paths are unknown, run the first four commands, then history and
+   branches in a second call.
 
-   ```bash
-   git diff --cached --stat
-   git diff --cached
-   git diff --stat
-   git diff
-   git ls-files --others --exclude-standard
-   ```
+2. **Name.** Analyze the recent commit subjects touching the changed paths and
+   the matching branch names to learn the convention. Derive the shortest area
+   prefix and a concise slug, matching local spelling, separators, casing, and
+   verb prefix. Never use a generic prefix map, infer from paths alone, or
+   guess without checking this history. With no clear convention,
+   state the assumption, and ask if several names stay plausible. If the name
+   exists, add the repository usual numeric suffix, else `-1`, `-2`.
 
-3. **Learn the naming convention from this repository's history.** Inspect
-   recent commits and branch names for the changed paths. Derive the shortest
-   area or component prefix and a concise slug describing the change. Match
-   local spelling, separators, casing, and any usual verb prefix. Do not use a
-   universal prefix map or infer the convention from paths alone.
-
-   ```bash
-   git log --oneline -- <changed paths>
-   git branch -a --list '*<area>*'
-   ```
-
-   If the history gives no clear convention, use the repository's established
-   project or component naming and state the assumption. Ask if multiple names
-   remain materially plausible.
-
-4. **Check for collisions** across local and fetched remote branches. If the
-   candidate exists, append the repository's usual numeric suffix. Otherwise
-   use `-1`, `-2`, and so on.
-
-   ```bash
-   git branch -a --list "<candidate>"
-   ```
-
-5. **Create and check out the branch with pending changes preserved.**
+3. **Create.** Variables do not persist between calls, so substitute
+   `<main_branch>` with the default branch detected and printed in step 1.
 
    ```bash
    bash ~/.claude/skills/_lib/stash-preserve-across-checkout.sh \
-       <candidate> "origin/$(bash ~/.claude/skills/_lib/detect-main-branch.sh)"
+       <candidate> origin/<main_branch> && git status -sb
    ```
 
-   If it exits nonzero, `stash pop` conflicted. Stop and show the conflict. Do
-   not resolve it silently because the changes remain in the stash.
+   On nonzero exit, `stash pop` conflicted. Stop and show the conflict. Do not
+   resolve it, the changes remain in the stash.
 
-6. **Report** the branch name, the naming rationale, the source used for the
-   name, and whether staged and unstaged changes landed on the new branch
-   unchanged.
+4. **Report** the name, rationale, change source, and whether staged and
+   unstaged changes landed unchanged.
 
-## Do NOT
-
-- Do not commit or push.
-- Do not guess the naming convention without checking neighboring history.
-- Do not resolve a `git stash pop` conflict on your own.
+Never commit or push.
