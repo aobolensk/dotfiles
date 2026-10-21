@@ -18,6 +18,8 @@ OVERLAY_SKIP_ROOT_FILES = {
     "deploy.py",
 }
 
+VCS_DIRS = (".git", ".hg", ".svn")
+
 dotfiles_dir = os.path.dirname(os.path.abspath(__file__))
 # Use os.path.expanduser to determine the user's home directory in a
 # platform independent manner even if the HOME environment variable is not set.
@@ -95,7 +97,7 @@ def discover_overlays():
 def deploy_overlay(overlay_path, args):
     apply_ignore_filter = not is_ignored_by_git(overlay_path)
     for root, dirs, files in os.walk(overlay_path):
-        dirs[:] = [d for d in dirs if d not in (".git", ".hg", ".svn")]
+        dirs[:] = [d for d in dirs if d not in VCS_DIRS]
         for file in files:
             if root == overlay_path and file in OVERLAY_SKIP_ROOT_FILES:
                 continue
@@ -125,6 +127,43 @@ def deploy_overlay(overlay_path, args):
                     log(args, f"Error: could not symlink {overlay_file_path} -> {home_path}: {e}")
                     continue
             log(args, f"Added symlink: {overlay_file_path} -> {home_path}")
+
+
+def prune_stale_symlinks(overlay_path, args):
+    prefix = overlay_path + os.sep
+    for root, dirs, _ in os.walk(overlay_path):
+        dirs[:] = [d for d in dirs if d not in VCS_DIRS]
+        home_root = os.path.normpath(os.path.join(home_dir, os.path.relpath(root, overlay_path)))
+        if not os.path.isdir(home_root):
+            dirs[:] = []
+            continue
+        if os.path.realpath(home_root) == os.path.realpath(root):
+            continue
+        for home_walk_root, home_dirs, home_files in os.walk(home_root):
+            for name in home_files:
+                home_path = os.path.join(home_walk_root, name)
+                if not os.path.islink(home_path) or os.path.exists(home_path):
+                    continue
+                if not os.readlink(home_path).startswith(prefix):
+                    continue
+                if not confirm(args, f"Remove stale symlink {home_path}? "):
+                    continue
+                if not args.dry_run:
+                    try:
+                        os.remove(home_path)
+                    except OSError as e:
+                        log(args, f"Error: could not remove {home_path}: {e}")
+                        continue
+                    try:
+                        if not os.listdir(home_walk_root):
+                            os.rmdir(home_walk_root)
+                    except OSError:
+                        pass
+                log(args, f"Removed stale symlink: {home_path}")
+            # Subdirs known to the overlay are handled by their own iteration
+            # Other subdirs of ~ itself are skipped to avoid walking the whole home directory
+            if home_walk_root == home_root:
+                home_dirs[:] = [] if root == overlay_path else [d for d in home_dirs if d not in dirs]
 
 
 def materialize_codex_skills(overlay_path, args, reset_target):
@@ -212,6 +251,7 @@ Dotfiles deployment script.
         found_overlay = True
         log(args, f"Deploying overlay: {overlay_path}")
         deploy_overlay(overlay_path, args)
+        prune_stale_symlinks(overlay_path, args)
         if materialize_codex_skills(overlay_path, args, reset_codex_skills):
             reset_codex_skills = False
         run_overlay_deploy_hook(overlay_path, args)
