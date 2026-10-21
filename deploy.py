@@ -14,8 +14,15 @@ OVERLAY_SKIP_ROOT_FILES = {
     ".gitignore",
     ".gitattributes",
     ".gitmodules",
+    ".markdownlint-cli2.yaml",
+    ".pre-commit-config.yaml",
+    "CLAUDE.md",
     "README.md",
     "deploy.py",
+}
+
+OVERLAY_SKIP_ROOT_DIRS = {
+    ".github",
 }
 
 VCS_DIRS = (".git", ".hg", ".svn")
@@ -98,6 +105,8 @@ def deploy_overlay(overlay_path, args):
     apply_ignore_filter = not is_ignored_by_git(overlay_path)
     for root, dirs, files in os.walk(overlay_path):
         dirs[:] = [d for d in dirs if d not in VCS_DIRS]
+        if root == overlay_path:
+            dirs[:] = [d for d in dirs if d not in OVERLAY_SKIP_ROOT_DIRS]
         for file in files:
             if root == overlay_path and file in OVERLAY_SKIP_ROOT_FILES:
                 continue
