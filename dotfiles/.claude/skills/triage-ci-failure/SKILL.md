@@ -32,9 +32,9 @@ commit when the branch has no PR.
    stack trace, and surrounding context.
 
 5. **Fetch failed external-check details.** Read the check `detailsUrl` or
-   `targetUrl` from `statusCheckRollup`, then inspect that provider page or its
-   authenticated API/CLI. If access is unavailable, report the check and URL as
-   a blocker instead of ignoring it.
+   `targetUrl` from `statusCheckRollup`, then use that provider authenticated
+   API or CLI. Do not use a browser for CI details. If API/CLI access is
+   unavailable, report the check and URL as a blocker instead of ignoring it.
 
 6. **Diagnose the root cause.** Classify the failure as test, build, lint,
    timeout, or infrastructure, then read the named tests, source files, and
