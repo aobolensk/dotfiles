@@ -24,17 +24,18 @@ Rank candidate reviewers for the current branch PR. Read-only: never request rev
    - Reviewers and approvers of recent merged PRs touching the same paths:
      `gh pr list --state merged --search "<path>" --json number,author,reviews`.
 4. Score by weight: CODEOWNERS > blame of modified lines > prior reviewers of the same paths > recent authors.
-   Drop the PR author and bots. Map git identities to GitHub logins where possible, and say when unsure.
+   Drop the PR author, bots, and anyone in `reviewRequests` (already pending, suggesting them adds nothing).
+   Map git identities to GitHub logins where possible, and say when unsure.
 5. Print the top 3-5 candidates.
 
 ## Output format
 
 One line per candidate: `@login (or name) - why (e.g. CODEOWNER of X, 60% blame of Y, reviewed Z)`.
-Mark already-requested reviewers. Lead with the strongest candidate.
+List already-requested reviewers once as a header line, not as candidates. Lead with the strongest candidate.
 Wrap logins in backticks so nobody is notified.
 
 ## Do NOT
 
 - Request reviews, comment, or post anything on GitHub.
 - Stage, unstage or commit.
-- Include the PR author or bots.
+- Include the PR author, bots, or reviewers whose review is already requested.
