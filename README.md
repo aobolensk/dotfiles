@@ -36,6 +36,10 @@ macOS:
 brew install git python
 ```
 
+Windows: enable Developer Mode (or run as administrator) so symlinks can be
+created, and clone with `git clone -c core.symlinks=true`. Run as
+`python deploy.py`.
+
 ## Layout
 
 Any top-level directory containing a `.dotfiles-overlay` marker is symlinked

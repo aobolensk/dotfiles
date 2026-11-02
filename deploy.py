@@ -3,9 +3,11 @@
 import argparse
 import datetime
 import os
+import re
 import runpy
 import shutil
 import subprocess
+import tempfile
 
 OVERLAY_MARKER = ".dotfiles-overlay"
 
@@ -40,6 +42,29 @@ def is_ignored_by_git(file_path):
         capture_output=True,
     )
     return result.returncode == 0
+
+
+def read_link(path):
+    target = os.readlink(path)
+    # Windows prefixes absolute targets with \\?\
+    if os.name == "nt":
+        if target.startswith("\\\\?\\UNC\\"):
+            target = "\\\\" + target[8:]
+        elif target.startswith("\\\\?\\"):
+            target = target[4:]
+    return target
+
+
+def check_symlink_support(args):
+    if os.name != "nt" or args.dry_run:
+        return
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        try:
+            os.symlink(dotfiles_dir, os.path.join(tmp_dir, "link"), target_is_directory=True)
+        except OSError as e:
+            raise SystemExit(
+                f"Error: cannot create symlinks ({e}). Enable Windows Developer Mode or run as administrator."
+            )
 
 
 def log(args, message):
@@ -114,7 +139,7 @@ def deploy_overlay(overlay_path, args):
             if apply_ignore_filter and is_ignored_by_git(overlay_file_path):
                 continue
             home_path = os.path.join(home_dir, os.path.relpath(overlay_file_path, overlay_path))
-            if os.path.islink(home_path) and os.readlink(home_path) == overlay_file_path:
+            if os.path.islink(home_path) and read_link(home_path) == overlay_file_path:
                 continue
             if os.path.lexists(home_path):
                 if not confirm(args, f"Do you want to replace {overlay_file_path} -> {home_path}? "):
@@ -153,7 +178,7 @@ def prune_stale_symlinks(overlay_path, args):
                 home_path = os.path.join(home_walk_root, name)
                 if not os.path.islink(home_path) or os.path.exists(home_path):
                     continue
-                if not os.readlink(home_path).startswith(prefix):
+                if not read_link(home_path).startswith(prefix):
                     continue
                 if not confirm(args, f"Remove stale symlink {home_path}? "):
                     continue
@@ -201,11 +226,26 @@ def materialize_codex_skills(overlay_path, args, reset_target):
     if not args.dry_run:
         os.makedirs(os.path.join(home_dir, ".gemini"), exist_ok=True)
         try:
-            os.symlink(home_agents_skills, os.path.join(home_dir, ".gemini", "skills"))
+            os.symlink(home_agents_skills, os.path.join(home_dir, ".gemini", "skills"), target_is_directory=True)
         except FileExistsError:
             pass
 
     return True
+
+
+def install_vscode_extensions(args):
+    # Not via bash, which may be missing on Windows or resolve to WSL
+    with open(os.path.join(dotfiles_dir, "vscode-extensions.sh"), encoding="utf-8") as f:
+        extensions = re.findall(r"--install-extension (\S+)", f.read())
+    # subprocess ignores PATHEXT, so code would miss code.cmd
+    vscode_path = shutil.which(args.vscode_path) or args.vscode_path
+    if not extensions:
+        log(args, "Error: no extensions found in vscode-extensions.sh")
+        return
+    try:
+        subprocess.call([vscode_path, "--force"] + [arg for ext in extensions for arg in ("--install-extension", ext)])
+    except OSError as e:
+        log(args, f"Error: could not run {vscode_path}: {e}")
 
 
 def run_overlay_deploy_hook(overlay_path, args):
@@ -251,6 +291,7 @@ Dotfiles deployment script.
     args.backup_dir = os.path.abspath(os.path.expanduser(args.backup_dir))
     args.backup_timestamp = None
 
+    check_symlink_support(args)
     log(args, "----------------------------\n"
               "Starting dotfiles deployment\n"
               "----------------------------")
@@ -271,7 +312,7 @@ Dotfiles deployment script.
         and confirm(args, "Do you want to install VSCode extensions? ")
         and not args.dry_run
     ):
-        subprocess.call(["bash", os.path.join(dotfiles_dir, "vscode-extensions.sh"), args.vscode_path])
+        install_vscode_extensions(args)
     log(args, "----------------------------\n"
               "Dotfiles deployment is done \n"
               "----------------------------")
