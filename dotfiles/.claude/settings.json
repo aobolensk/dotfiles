@@ -1,7 +1,6 @@
 {
   "cleanupPeriodDays": 3650,
   "env": {
-    "CLAUDE_CODE_EFFORT_LEVEL": "xhigh",
     "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
     "CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING": "1",
     "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
@@ -57,6 +56,12 @@
   },
   "outputStyle": "concise",
   "effortLevel": "xhigh",
+  "modelSettings": {
+    "opus": {"effortLevel": "xhigh"},
+    "sonnet": {"effortLevel": "xhigh"},
+    "haiku": {"effortLevel": "xhigh"},
+    "fable": {"effortLevel": "xhigh"}
+  },
   "tui": "default",
   "skipDangerousModePermissionPrompt": true
 }
