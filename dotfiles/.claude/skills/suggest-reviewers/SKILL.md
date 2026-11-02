@@ -9,9 +9,13 @@ Rank candidate reviewers for the current branch PR. Read-only: never request rev
 
 ## Arguments
 
-- **PR number or URL** (optional): defaults to the PR for the current branch.
+- **PR number(s) or URL(s)** (optional): defaults to the PR for the current branch.
 
-## Steps
+## Multiple PRs
+
+When given more than one PR, spawn one `general-purpose` subagent per PR in a single message so they run in
+parallel. Give each one this file path, its PR number and the repo. Tell it to run Steps 2-5 for that PR only
+and return only the Output format block. Once all of them finish, print one block per PR, in argument order.
 
 1. Resolve the PR with `~/.claude/skills/_lib/find-pr.sh` (skip if given). If it fails, fall back to the diff
    against `$(~/.claude/skills/_lib/detect-main-branch.sh)` and ask whether to continue without a PR.
@@ -33,6 +37,8 @@ Rank candidate reviewers for the current branch PR. Read-only: never request rev
 One line per candidate: `@login (or name) - why (e.g. CODEOWNER of X, 60% blame of Y, reviewed Z)`.
 List already-requested reviewers once as a header line, not as candidates. Lead with the strongest candidate.
 Wrap logins in backticks so nobody is notified.
+For multiple PRs, prefix each block with a `### #<number> <title>` heading.
+Print only these blocks: no preamble, methodology, summary or closing remarks.
 
 ## Do NOT
 
