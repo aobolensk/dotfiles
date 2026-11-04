@@ -57,10 +57,18 @@
   "outputStyle": "concise",
   "effortLevel": "xhigh",
   "modelSettings": {
-    "opus": {"effortLevel": "xhigh"},
-    "sonnet": {"effortLevel": "xhigh"},
-    "haiku": {"effortLevel": "xhigh"},
-    "fable": {"effortLevel": "xhigh"}
+    "opus": {
+      "effortLevel": "xhigh"
+    },
+    "sonnet": {
+      "effortLevel": "xhigh"
+    },
+    "haiku": {
+      "effortLevel": "xhigh"
+    },
+    "fable": {
+      "effortLevel": "xhigh"
+    }
   },
   "tui": "default",
   "skipDangerousModePermissionPrompt": true
