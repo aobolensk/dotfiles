@@ -2,6 +2,7 @@
 
 import argparse
 import os
+import re
 import shutil
 import subprocess
 
@@ -27,6 +28,8 @@ Dotfiles update script.
             ], stdout=subprocess.PIPE, check=True)
             out = proc.stdout.decode("utf-8").strip().split('\n')
             for line in out:
+                if not re.fullmatch(r"[\w-]+\.[\w-]+", line):
+                    continue
                 f.write("--install-extension {} \\\n".format(line))
     else:
         print("Warning: VSCode not found in PATH. Skipping extension update.")
