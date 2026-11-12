@@ -10,7 +10,7 @@ Claude Code only: relies on the built-in `code-review` skill. In any other harne
 
 1. Run `git diff --cached --stat`. If nothing is staged, say so and stop.
 2. Invoke the `code-review` skill via the Skill tool with args
-   `max --fix staged changes only (git diff --cached)`. Without the target,
+   `xhigh --fix staged changes only (git diff --cached)`. Without the target,
    code-review falls back to the whole working tree diff.
 
 ## Do NOT

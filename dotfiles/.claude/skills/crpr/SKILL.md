@@ -12,7 +12,7 @@ Claude Code only: relies on the built-in `code-review` skill. In any other harne
 PR: $ARGUMENTS
 
 1. If the PR above is empty, ask the user for it and stop. Never auto-detect.
-2. Invoke the `code-review` skill via the Skill tool with args `max <PR above>`.
+2. Invoke the `code-review` skill via the Skill tool with args `xhigh <PR above>`.
 
 ## Do NOT
 
