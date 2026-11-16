@@ -4,9 +4,10 @@ hooks = true
 [tui]
 status_line = [
     "git-branch",
+    "pull-request-number",
     "model-with-reasoning",
     "context-usage",
-    "used-tokens",
+    "total-input-tokens",
     "total-output-tokens",
     "five-hour-limit",
     "weekly-limit",
