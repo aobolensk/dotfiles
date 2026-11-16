@@ -9,11 +9,15 @@ c_ctx=$'\033[33m'
 c_tok=$'\033[34m'
 c_cost=$'\033[32m'
 c_rl=$'\033[31m'
+c_good=$'\033[32m'
+c_mid=$'\033[33m'
+c_bad=$'\033[31m'
 c_add=$'\033[32m'
 c_del=$'\033[31m'
 
-IFS=$'\x1f' read -r cwd model effort ctx_pct ctx_size tok_in tok_out cost rl_5h rl_7d < <(
-    jq -r '[
+IFS=$'\x1f' read -r cwd model effort ctx_pct ctx_size tok_in tok_out cost rl_5h rl_7d \
+    cache_pct cache_miss cache_miss_pct cache_cold < <(
+    jq -r '(.prompt_cache // {}) as $p | [
         .workspace.current_dir // .cwd // "",
         .model.display_name // "",
         .effort.level // "",
@@ -23,7 +27,11 @@ IFS=$'\x1f' read -r cwd model effort ctx_pct ctx_size tok_in tok_out cost rl_5h 
         .context_window.total_output_tokens // "",
         .cost.total_cost_usd // "",
         .rate_limits.five_hour.used_percentage // "",
-        .rate_limits.seven_day.used_percentage // ""
+        .rate_limits.seven_day.used_percentage // "",
+        (if $p.caching_observed and $p.hit_ratio then ($p.hit_ratio * 100 | round) else "" end),
+        (if $p.misses > 0 then $p.misses else "" end),
+        (if $p.requests > 0 then (($p.misses // 0) * 100 / $p.requests | floor) else "" end),
+        (if $p.warm == false then 1 else "" end)
     ] | join("")' <<<"$input"
 )
 
@@ -65,6 +73,11 @@ parts="${parts} ${c_model}${model}${c_reset}"
 [ -n "$cost" ] && parts="${parts} ${c_cost}\$$(printf '%.3f' "$cost")${c_reset}"
 [ -n "$rl_5h" ] && parts="${parts} ${c_rl}5h:${rl_5h}%${c_reset}"
 [ -n "$rl_7d" ] && parts="${parts} ${c_rl}7d:${rl_7d}%${c_reset}"
+if [ -n "$cache_pct" ]; then
+    demerits=$(( (cache_pct < 90) + (cache_pct < 70) + (cache_miss_pct >= 10) + (cache_miss_pct >= 25) + cache_cold ))
+    c=$c_good; [ "$demerits" -ge 1 ] && c=$c_mid; [ "$demerits" -ge 2 ] && c=$c_bad
+    parts="${parts} ${c}cache:${cache_pct}%${cache_cold:+:cold}${cache_miss:+ miss:$cache_miss}${c_reset}"
+fi
 [ -n "$diff_stat" ] && parts="${parts} ${diff_stat}"
 
 printf '%s' "$parts"
