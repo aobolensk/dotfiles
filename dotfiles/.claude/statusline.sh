@@ -5,6 +5,7 @@ c_reset=$'\033[0m'
 c_branch=$'\033[35m'
 c_model=$'\033[36m'
 c_effort=$'\033[90m'
+c_sid=$'\033[90m'
 c_ctx=$'\033[33m'
 c_tok=$'\033[34m'
 c_cost=$'\033[32m'
@@ -16,7 +17,7 @@ c_add=$'\033[32m'
 c_del=$'\033[31m'
 
 IFS=$'\x1f' read -r cwd model effort ctx_pct ctx_size tok_in tok_out cost rl_5h rl_7d \
-    cache_pct cache_miss cache_miss_pct cache_cold < <(
+    cache_pct cache_miss cache_miss_pct cache_cold session_id < <(
     jq -r '(.prompt_cache // {}) as $p | [
         .workspace.current_dir // .cwd // "",
         .model.display_name // "",
@@ -31,7 +32,8 @@ IFS=$'\x1f' read -r cwd model effort ctx_pct ctx_size tok_in tok_out cost rl_5h 
         (if $p.caching_observed and $p.hit_ratio then ($p.hit_ratio * 100 | round) else "" end),
         (if $p.misses > 0 then $p.misses else "" end),
         (if $p.requests > 0 then (($p.misses // 0) * 100 / $p.requests | floor) else "" end),
-        (if $p.warm == false then 1 else "" end)
+        (if $p.warm == false then 1 else "" end),
+        .session_id // ""
     ] | join("")' <<<"$input"
 )
 
@@ -79,5 +81,6 @@ if [ -n "$cache_pct" ]; then
     parts="${parts} ${c}cache:${cache_pct}%${cache_cold:+:cold}${cache_miss:+ miss:$cache_miss}${c_reset}"
 fi
 [ -n "$diff_stat" ] && parts="${parts} ${diff_stat}"
+[ -n "$session_id" ] && parts="${parts} ${c_sid}${session_id:0:8}${c_reset}"
 
 printf '%s' "$parts"
